@@ -1,30 +1,35 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
+import { withRouter } from "react-router-dom";
 import axios from "axios";
+
+import useTokens from "../../utils/useTokens";
 
 interface CredentialsInterface {
   username: string;
   password: string;
 }
 
-async function loginUser(credentials: CredentialsInterface) {
-  return axios
-    .post("http://localhost:8000/api/login", JSON.stringify(credentials), {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-    .then((res) => {
-      alert("로그인에 성공했습니다!");
-      return res.data;
-    })
-    .catch((err) => {
-      alert("로그인 정보가 틀립니다!");
-    });
-}
-
-export default function Login({ setToken }: any) {
+function Login({ history }: { history: any }) {
   const [inputs, setInputs] = useState({ username: "", password: "" });
+  const { setTokens } = useTokens();
+
+  async function loginUser(credentials: CredentialsInterface) {
+    return axios
+      .post("http://localhost:8000/api/login", JSON.stringify(credentials), {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        alert("로그인에 성공했습니다!");
+        history.push("/");
+        window.location.reload();
+        return res.data;
+      })
+      .catch((err) => {
+        alert("로그인 정보가 틀립니다!");
+      });
+  }
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -36,12 +41,13 @@ export default function Login({ setToken }: any) {
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
-    const token = await loginUser({
+    const tokens = await loginUser({
       username: inputs.username,
       password: inputs.password,
     });
-    setToken(token);
-    console.log(token);
+    if (setTokens) {
+      setTokens(tokens);
+    }
   };
 
   return (
@@ -83,6 +89,4 @@ export default function Login({ setToken }: any) {
   );
 }
 
-// Login.propTypes = {
-//   setToken: PropTypes.func.isRequired,
-// };
+export default withRouter(Login);
