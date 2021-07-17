@@ -1,8 +1,15 @@
 import { useState } from "react";
 
-interface TokensInterface {
+export interface TokensInterface {
   userId: string;
   access_token: string;
+}
+
+export interface UserProfileInterface {
+  id: string;
+  username: string;
+  isManager: boolean;
+  store?: string;
 }
 
 export default function useTokens(): { setTokens: Function; tokens: TokensInterface; isLoggedIn: boolean } {
