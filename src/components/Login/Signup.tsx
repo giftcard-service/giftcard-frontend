@@ -21,15 +21,11 @@ function Signup({ history }: { history: any }) {
 
   async function registerUser(credentials: CredentialsInterface) {
     return axios
-      .post(
-        API_V1_URL + "/users",
-        {},
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      )
+      .post(API_V1_URL + "/users", JSON.stringify(credentials), {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
       .then((res) => {
         alert("회원가입에 성공했습니다!");
         history.push("/");
@@ -37,19 +33,31 @@ function Signup({ history }: { history: any }) {
         return res.data;
       })
       .catch((err) => {
+        console.error(err.response.data);
         alert("회원가입에 실패했습니다.");
         return null;
       });
   }
 
-  const onSubmit = (data: { username: string; password1: string; password2: string }) => {
-    const { username, password1, password2 } = data;
+  const onSubmit = (data: { username: string; password: string; password2: string }) => {
+    const { username, password, password2 } = data;
 
-    if (password1 !== password2) {
+    if (password !== password2) {
       alert("비밀번호와 비밀번호 확인 내용이 일치하지 않습니다.");
     } else {
-      registerUser({ username, password: password1 });
+      registerUser({ username, password: password });
     }
+  };
+
+  const usernameValidation = {
+    required: "필수 필드입니다.",
+    minLength: { value: 5, message: "아이디는 5자 이상 20자 이하여야 합니다." },
+    maxLength: { value: 20, message: "아이디는 5자 이상 20자 이하여야 합니다." },
+  };
+  const passwordValidation = {
+    required: "필수 필드입니다.",
+    minLength: { value: 8, message: "비밀번호는 8자 이상 16자 이하여야 합니다." },
+    maxLength: { value: 16, message: "비밀번호는 8자 이상 16자 이하여야 합니다." },
   };
 
   return (
@@ -64,10 +72,10 @@ function Signup({ history }: { history: any }) {
                 className="p-1 rounded-md border-2 border-gray-500"
                 type="text"
                 placeholder="아이디"
-                {...register("username", { required: true })}
+                {...register("username", usernameValidation)}
               />
             </div>
-            {errors.username && <div className="text-right text-red-600">*필수 필드입니다!</div>}
+            {errors.username && <div className="text-right text-red-600">{errors.username.message}</div>}
           </label>
 
           <label className="flex flex-col flex-shrink-0 mb-3">
@@ -77,10 +85,10 @@ function Signup({ history }: { history: any }) {
                 className="p-1 rounded-md border-2 border-gray-500"
                 type="password"
                 placeholder="비밀번호"
-                {...register("password", { required: true })}
+                {...register("password", passwordValidation)}
               />
             </div>
-            {errors.password && <div className="text-right text-red-600">*필수 필드입니다!</div>}
+            {errors.password && <div className="text-right text-red-600">{errors.password.message}</div>}
           </label>
 
           <label className="flex flex-col flex-shrink-0 mb-4">
@@ -90,10 +98,10 @@ function Signup({ history }: { history: any }) {
                 className="p-1 rounded-md border-2 border-gray-500"
                 type="password"
                 placeholder="비밀번호 확인"
-                {...register("password2", { required: true })}
+                {...register("password2", passwordValidation)}
               />
             </div>
-            {errors.password2 && <div className="text-right text-red-600">*필수 필드입니다!</div>}
+            {errors.password2 && <div className="text-right text-red-600">{errors.password2.message}</div>}
           </label>
 
           <div className="flex justify-center items-center">

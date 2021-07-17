@@ -52,6 +52,13 @@ function Login({ history }: { history: any }) {
     }
   };
 
+  const usernameValidation = {
+    required: "아이디를 입력하세요.",
+  };
+  const passwordValidation = {
+    required: "비밀번호를 입력하세요.",
+  };
+
   return (
     <div className="max-w-screen-xl mx-auto w-full flex flex-col items-center">
       <div className="flex flex-col items-center w-auto md:w-96 p-3 md:p-5 m-5 rounded-md border-2 border-gray-500">
@@ -64,10 +71,10 @@ function Login({ history }: { history: any }) {
                 className="p-1 rounded-md border-2 border-gray-500"
                 type="text"
                 placeholder="아이디"
-                {...register("username", { required: true })}
+                {...register("username", usernameValidation)}
               />
             </div>
-            {errors.username && <div className="text-right text-red-600">*아이디를 입력하세요.</div>}
+            {errors.username && <div className="text-right text-red-600">{errors.username.message}</div>}
           </label>
 
           <label className="flex flex-col flex-shrink-0 mb-3">
@@ -77,10 +84,10 @@ function Login({ history }: { history: any }) {
                 className="p-1 rounded-md border-2 border-gray-500"
                 type="password"
                 placeholder="비밀번호"
-                {...register("password", { required: true })}
+                {...register("password", passwordValidation)}
               />
             </div>
-            {errors.password && <div className="text-right text-red-600">*비밀번호를 입력하세요.</div>}
+            {errors.password && <div className="text-right text-red-600">{errors.password.message}</div>}
           </label>
 
           <div className="flex justify-center items-center">
