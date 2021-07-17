@@ -1,11 +1,11 @@
 import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 import "./App.css";
-import NavigationBar from "./components/NavigationBar";
+import NavigationBar from "./components/NavigationBar/NavigationBar";
 import Home from "./components/Home/Home";
 import Profile from "./components/Profile/Profile";
 import Login from "./components/Login/Login";
-import useTokens from "./utils/useTokens";
+import NotFound from "./components/Error/NotFound";
 
 function App() {
   return (
@@ -18,13 +18,9 @@ function App() {
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/logout">
-            <Route path="/login">
-              <Login />
-            </Route>
-            <Route path="/logout">
               <Redirect to="/" />
             </Route>
-            <Route render={() => <div className="error">에러 페이지</div>} />
+            <Route component={NotFound} />
           </Switch>
         </div>
       </BrowserRouter>

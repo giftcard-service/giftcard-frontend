@@ -1,29 +1,35 @@
 import { useState } from "react";
 
 interface TokensInterface {
-  access_token: string | null;
+  userId: string;
+  access_token: string;
 }
 
 export default function useTokens(): { setTokens: Function; tokens: TokensInterface; isLoggedIn: boolean } {
   const getTokens = (): TokensInterface => {
     const tokensString = localStorage.getItem("tokens");
-    if (!tokensString) {
-      return { access_token: null };
+
+    const ret = { userId: "", access_token: "" };
+    if (tokensString) {
+      const userTokens = JSON.parse(tokensString);
+      ret.userId = userTokens.userId;
+      ret.access_token = userTokens.access_token;
     }
 
-    const userTokens = JSON.parse(tokensString);
-    return { access_token: userTokens?.access_token || null };
+    return ret;
   };
 
   const [tokens, setTokens] = useState(getTokens());
 
   const isLoggedIn = ((): boolean => {
-    return tokens.access_token ? true : false;
+    return tokens && tokens.access_token ? true : false;
   })();
 
-  function saveTokens(tokens: any) {
-    localStorage.setItem("tokens", JSON.stringify(tokens));
-    setTokens(tokens);
+  function saveTokens(tokens: TokensInterface) {
+    if (tokens) {
+      localStorage.setItem("tokens", JSON.stringify(tokens));
+      setTokens(tokens);
+    }
   }
 
   return {

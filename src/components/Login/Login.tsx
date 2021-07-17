@@ -28,6 +28,7 @@ function Login({ history }: { history: any }) {
       })
       .catch((err) => {
         alert("로그인 정보가 틀립니다!");
+        return null;
       });
   }
 
@@ -76,10 +77,10 @@ function Login({ history }: { history: any }) {
           </label>
 
           <div className="flex justify-center items-center">
-            <button className="w-20 rounded-md bg-gray-600 text-white font-bold p-2 mr-2" type="submit">
+            <button className="rounded-md bg-gray-600 text-white font-bold p-2 mr-2" type="submit">
               회원가입
             </button>
-            <button className="w-20 rounded-md bg-gray-600 text-white font-bold p-2" type="submit">
+            <button className="rounded-md bg-gray-600 text-white font-bold p-2" type="submit">
               로그인
             </button>
           </div>
