@@ -5,6 +5,7 @@ import NavigationBar from "./components/NavigationBar/NavigationBar";
 import Home from "./components/Home/Home";
 import QrScan from "./components/QrScan/QrScan";
 import Profile from "./components/Profile/Profile";
+import Signup from "./components/Login/Signup";
 import Login from "./components/Login/Login";
 import Admin from "./components/Admin/Admin";
 import NotFound from "./components/Error/NotFound";
@@ -21,6 +22,7 @@ function App() {
             <Route exact path="/qr" component={QrScan} />
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/admin" component={Admin} />
+            <Route exact path="/signup" component={Signup} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/logout">
               <Redirect to="/" />
