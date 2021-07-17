@@ -3,6 +3,7 @@ import { withRouter } from "react-router-dom";
 import axios from "axios";
 
 import useTokens from "../../utils/useTokens";
+import { API_V1_URL } from "../../utils/constants";
 
 interface CredentialsInterface {
   username: string;
@@ -15,7 +16,7 @@ function Login({ history }: { history: any }) {
 
   async function loginUser(credentials: CredentialsInterface) {
     return axios
-      .post("http://localhost:8000/api/login", JSON.stringify(credentials), {
+      .post(API_V1_URL + "login", JSON.stringify(credentials), {
         headers: {
           "Content-Type": "application/json",
         },

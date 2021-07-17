@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
+import { API_V1_URL } from "../../utils/constants";
 
 import useTokens from "../../utils/useTokens";
 
@@ -19,7 +20,7 @@ function Profile({ history }: { history: any }) {
 
   async function updateUser() {
     return axios
-      .patch(`http://localhost:8000/users/${user.userId}`, JSON.stringify({ username: inputs.username }), {
+      .patch(API_V1_URL + `/users/${user.userId}`, JSON.stringify({ username: inputs.username }), {
         headers: {
           Authorization: "Bearer " + tokens.access_token,
           "Content-Type": "application/json",
