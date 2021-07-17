@@ -6,6 +6,7 @@ import Home from "./components/Home/Home";
 import Profile from "./components/Profile/Profile";
 import Login from "./components/Login/Login";
 import NotFound from "./components/Error/NotFound";
+import QrScan from "./components/QrScan/QrScan";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <NavigationBar />
           <Switch>
             <Route exact path="/" component={Home} />
+            <Route exact path="/qr" component={QrScan} />
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/logout">
