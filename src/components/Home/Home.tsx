@@ -1,7 +1,7 @@
 import { withRouter } from "react-router-dom";
 
 import useTokens from "../../utils/useTokens";
-import GiftcardList from "../Giftcards/GiftcardList";
+import GiftcardList from "../Giftcard/GiftcardList";
 
 function Home({ history }: { history: any }) {
   const { isLoggedIn } = useTokens();
