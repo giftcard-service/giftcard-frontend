@@ -2,8 +2,8 @@ import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
 
 import "./App.css";
 import NavigationBar from "./components/NavigationBar";
-import Dashboard from "./components/Dashboard/Dashboard";
-import Preferences from "./components/Preferences/Preferences";
+import Home from "./components/Home/Home";
+import Profile from "./components/Profile/Profile";
 import Login from "./components/Login/Login";
 import useTokens from "./utils/useTokens";
 
@@ -14,12 +14,10 @@ function App() {
         <div>
           <NavigationBar />
           <Switch>
-            <Route path="/dashboard">
-              <Dashboard />
-            </Route>
-            <Route path="/preferences">
-              <Preferences />
-            </Route>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/profile" component={Profile} />
+            <Route exact path="/login" component={Login} />
+            <Route exact path="/logout">
             <Route path="/login">
               <Login />
             </Route>
