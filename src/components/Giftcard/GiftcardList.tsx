@@ -13,11 +13,11 @@ function GiftcardList() {
   });
 
   return (
-    <div className="flex flex-col w-full items-center mx-auto">
+    <div className="flex flex-col w-full items-center mx-auto p-4">
       <h1 className="pb-1 text-xl font-bold mb-3">내 상품권</h1>
-      <div className="flex flex-col">
+      <div className="flex flex-col w-full md:w-1/3">
         {giftcards.result.map((giftcard) => (
-          <div className="flex flex-col items-center p-2 mb-3 rounded-md border-2 border-gray-500 w-full cursor-pointer">
+          <div className="flex flex-col items-center p-2 mb-5 rounded-md border-2 border-gray-500 w-full cursor-pointer">
             <div className="text-xl font-bold">상품권 ID: {giftcard.id}</div>
             <div className="flex flex-col w-full p-2 rounded-md border-2 border-gray-500">
               <div className="text-center font-bold">매장 정보</div>

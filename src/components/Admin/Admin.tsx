@@ -39,11 +39,11 @@ function Admin({ history }: { history: any }) {
   }, [tokens, user, history]);
 
   return (
-    <div className="max-w-screen-xl mx-auto w-full flex flex-col items-center">
+    <div className="max-w-screen-xl mx-auto w-full flex flex-col items-center p-4">
       {isLoading ? (
         <div>LOADING...</div>
       ) : (
-        <div className="flex flex-col items-center p-5 m-5 rounded-md border-2 border-gray-500 mx-12 md:mx-0 md:w-1/2">
+        <div className="flex flex-col items-center w-full md:w-1/2 p-5 my-5 rounded-md border-2 border-gray-500">
           <h1 className="pb-5 text-xl font-bold">관리자 페이지</h1>
           <div className="flex flex-col w-full">
             <div className="mb-3">

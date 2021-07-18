@@ -54,8 +54,8 @@ function Signup({ history }: { history: any }) {
   };
 
   return (
-    <div className="max-w-screen-xl mx-auto w-full flex flex-col items-center">
-      <div className="flex flex-col items-center w-auto md:w-96 p-3 md:p-5 m-5 rounded-md border-2 border-gray-500">
+    <div className="max-w-screen-xl mx-auto w-full flex flex-col items-center p-4">
+      <div className="flex flex-col items-center w-full md:w-96 p-5 my-5 rounded-md border-2 border-gray-500">
         <h1 className="pb-5 text-xl font-bold">회원가입</h1>
         <form onSubmit={handleSubmit(onSubmit)}>
           <label className="flex flex-col flex-shrink-0 mb-3">

@@ -70,16 +70,16 @@ function Profile({ history }: { history: any }) {
   };
 
   return (
-    <div className="max-w-screen-xl mx-auto w-full flex flex-col items-center">
+    <div className="max-w-screen-xl mx-auto w-full flex flex-col items-center p-4">
       {user ? (
-        <div className="flex flex-col items-center p-5 m-5 rounded-md border-2 border-gray-500 mx-12 md:mx-0 md:w-96">
+        <div className="flex flex-col items-center w-full md:w-96 p-5 my-5 rounded-md border-2 border-gray-500">
           <h1 className="pb-5 text-xl font-bold">회원정보 수정</h1>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
             <label className="flex flex-col flex-shrink-0 mb-3">
               <div className="flex flex-row items-center whitespace-nowrap">
-                <p className="w-24 font-bold">아이디</p>
+                <p className="w-full font-bold">아이디</p>
                 <input
-                  className="p-1 rounded-md border-2 border-gray-500"
+                  className="p-1 w-full rounded-md border-2 border-gray-500"
                   type="text"
                   placeholder="아이디"
                   {...register("username", usernameValidation)}
@@ -89,13 +89,17 @@ function Profile({ history }: { history: any }) {
             </label>
 
             <div className="flex flex-row flex-shrink-0 items-center whitespace-nowrap mb-3">
-              <p className="w-24 font-bold">상태</p>
-              <div className="p-1 rounded-md border-0 border-gray-500">{user.isManager ? "관리자" : "사용자"}</div>
+              <p className="w-full font-bold">상태</p>
+              <div className="p-1 w-full rounded-md border-0 border-gray-500">
+                {user.isManager ? "관리자" : "사용자"}
+              </div>
             </div>
 
             <div className="flex flex-row flex-shrink-0 items-center whitespace-nowrap mb-3">
-              <p className="w-24 font-bold">소속 매장</p>
-              <div className="p-1 rounded-md border-0 border-gray-500">{user.store ? user.store.name : "없음"}</div>
+              <p className="w-full font-bold">소속 매장</p>
+              <div className="p-1 w-full rounded-md border-0 border-gray-500">
+                {user.store ? user.store.name : "없음"}
+              </div>
             </div>
 
             <div className="flex flex-col justify-center items-center">
