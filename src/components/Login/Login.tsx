@@ -41,12 +41,13 @@ function Login({ history }: { history: any }) {
       });
   }
 
-  const onSubmit = (data: { username: string; password: string }) => {
+  const onSubmit = async (data: { username: string; password: string }) => {
     const { username, password } = data;
-    const tokens = loginUser({
+    const tokens = await loginUser({
       username: username,
       password: password,
     });
+
     if (setTokens) {
       setTokens(tokens);
     }
