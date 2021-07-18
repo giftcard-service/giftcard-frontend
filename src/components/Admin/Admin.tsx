@@ -1,10 +1,11 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
-import { API_V1_URL } from "../../utils/constants";
 
+import { API_V1_URL } from "../../utils/constants";
 import useTokens from "../../utils/useTokens";
-import StoreList from "../Store/StoreList";
+import GiftcardAdmin from "../Giftcard/GiftcardAdmin";
+import StoreAdmin from "../Store/StoreAdmin";
 
 function Admin({ history }: { history: any }) {
   const { tokens } = useTokens();
@@ -42,9 +43,16 @@ function Admin({ history }: { history: any }) {
       {isLoading ? (
         <div>LOADING...</div>
       ) : (
-        <div className="flex flex-col items-center p-5 m-5 rounded-md border-2 border-gray-500 mx-12 md:mx-0 md:w-96">
+        <div className="flex flex-col items-center p-5 m-5 rounded-md border-2 border-gray-500 mx-12 md:mx-0 md:w-1/2">
           <h1 className="pb-5 text-xl font-bold">관리자 페이지</h1>
-          <StoreList history={history} adminUser={user} tokens={tokens} />
+          <div className="flex flex-col w-full">
+            <div className="mb-3">
+              <StoreAdmin history={history} adminUser={user} tokens={tokens} />
+            </div>
+            <div>
+              <GiftcardAdmin history={history} adminUser={user} tokens={tokens} />
+            </div>
+          </div>
         </div>
       )}
     </div>
