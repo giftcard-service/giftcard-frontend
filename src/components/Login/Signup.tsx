@@ -3,11 +3,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 
 import { API_V1_URL } from "../../utils/constants";
-
-interface CredentialsInterface {
-  username: string;
-  password: string;
-}
+import { gcs } from "../../utils/types";
 
 function Signup({ history }: { history: any }) {
   const {
@@ -16,7 +12,7 @@ function Signup({ history }: { history: any }) {
     formState: { errors },
   } = useForm();
 
-  async function registerUser(credentials: CredentialsInterface) {
+  async function registerUser(credentials: gcs.CredentialsInterface) {
     return axios
       .post(API_V1_URL + "/users", JSON.stringify(credentials), {
         headers: {

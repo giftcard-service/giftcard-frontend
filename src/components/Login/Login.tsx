@@ -4,11 +4,7 @@ import axios from "axios";
 
 import useTokens from "../../utils/useTokens";
 import { API_V1_URL } from "../../utils/constants";
-
-interface CredentialsInterface {
-  username: string;
-  password: string;
-}
+import { gcs } from "../../utils/types";
 
 function Login({ history }: { history: any }) {
   const {
@@ -19,7 +15,7 @@ function Login({ history }: { history: any }) {
 
   const { setTokens } = useTokens();
 
-  async function loginUser(credentials: CredentialsInterface) {
+  async function loginUser(credentials: gcs.CredentialsInterface) {
     return axios
       .post(API_V1_URL + "/login", JSON.stringify(credentials), {
         headers: {

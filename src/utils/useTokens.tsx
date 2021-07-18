@@ -1,22 +1,8 @@
 import { useState } from "react";
+import { gcs } from "./types";
 
-export interface TokensInterface {
-  userId: string;
-  access_token: string;
-}
-
-export interface UserProfileInterface {
-  id: string;
-  username: string;
-  isManager: boolean;
-  store?: {
-    id: string;
-    name: string;
-  };
-}
-
-export default function useTokens(): { setTokens: Function; tokens: TokensInterface; isLoggedIn: boolean } {
-  const getTokens = (): TokensInterface => {
+export default function useTokens(): { setTokens: Function; tokens: gcs.TokensInterface; isLoggedIn: boolean } {
+  const getTokens = (): gcs.TokensInterface => {
     const tokensString = localStorage.getItem("tokens");
 
     const ret = { userId: "", access_token: "" };
@@ -35,7 +21,7 @@ export default function useTokens(): { setTokens: Function; tokens: TokensInterf
     return tokens && tokens.access_token ? true : false;
   })();
 
-  function saveTokens(tokens: TokensInterface) {
+  function saveTokens(tokens: gcs.TokensInterface) {
     if (tokens) {
       localStorage.setItem("tokens", JSON.stringify(tokens));
       setTokens(tokens);

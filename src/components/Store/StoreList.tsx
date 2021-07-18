@@ -1,8 +1,8 @@
 import { useState } from "react";
 
-import { TokensInterface, UserProfileInterface } from "../../utils/useTokens";
+import { gcs } from "../../utils/types";
 
-function StoreList({ adminUser }: { history: any; adminUser: UserProfileInterface; tokens: TokensInterface }) {
+function StoreList({ adminUser }: { history: any; adminUser: gcs.UserProfileInterface; tokens: gcs.TokensInterface }) {
   const [stores, setStores] = useState([]);
   const [inputs, setInputs] = useState({ username: "" });
 
