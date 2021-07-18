@@ -1,19 +1,8 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { withRouter } from "react-router-dom";
+import { useState } from "react";
 
-import { API_V1_URL } from "../../utils/constants";
 import { TokensInterface, UserProfileInterface } from "../../utils/useTokens";
 
-function StoreList({
-  history,
-  adminUser,
-  tokens,
-}: {
-  history: any;
-  adminUser: UserProfileInterface;
-  tokens: TokensInterface;
-}) {
+function StoreList({ adminUser }: { history: any; adminUser: UserProfileInterface; tokens: TokensInterface }) {
   const [stores, setStores] = useState([]);
   const [inputs, setInputs] = useState({ username: "" });
 
@@ -25,27 +14,27 @@ function StoreList({
     });
   };
 
-  async function updateUser() {
-    return axios
-      .patch(API_V1_URL + `/users/${adminUser.id}`, JSON.stringify({ store: inputs.username }), {
-        headers: {
-          Authorization: "Bearer " + tokens.access_token,
-          "Content-Type": "application/json",
-        },
-      })
-      .then((res) => {
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.error(err.response.data);
-        alert("정보 수정에 실패했습니다.");
-      });
-  }
+  // async function updateUser() {
+  //   return axios
+  //     .patch(API_V1_URL + `/users/${adminUser.id}`, JSON.stringify({ storeId: adminUser.username }), {
+  //       headers: {
+  //         Authorization: "Bearer " + tokens.access_token,
+  //         "Content-Type": "application/json",
+  //       },
+  //     })
+  //     .then((res) => {
+  //       window.location.reload();
+  //     })
+  //     .catch((err) => {
+  //       console.error(err.response.data);
+  //       alert("정보 수정에 실패했습니다.");
+  //     });
+  // }
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
 
-    await updateUser();
+    // await updateUser();
   };
 
   return (
@@ -70,7 +59,9 @@ function StoreList({
 
         <div className="flex flex-row flex-shrink-0 items-center whitespace-nowrap mb-3">
           <p className="w-24 font-bold">소속 매장</p>
-          <div className="p-1 rounded-md border-0 border-gray-500">{adminUser.store ? adminUser.store : "없음"}</div>
+          <div className="p-1 rounded-md border-0 border-gray-500">
+            {adminUser.store ? adminUser.store.name : "없음"}
+          </div>
         </div>
 
         <div className="flex flex-col justify-center items-center">

@@ -1,9 +1,7 @@
-import { useState } from "react";
 import { withRouter } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 
-import useTokens from "../../utils/useTokens";
 import { API_V1_URL } from "../../utils/constants";
 
 interface CredentialsInterface {
@@ -15,7 +13,6 @@ function Signup({ history }: { history: any }) {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
 

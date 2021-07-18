@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { withRouter } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
@@ -15,11 +14,9 @@ function Login({ history }: { history: any }) {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm();
 
-  const [inputs, setInputs] = useState({ username: "", password: "" });
   const { setTokens } = useTokens();
 
   async function loginUser(credentials: CredentialsInterface) {

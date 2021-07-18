@@ -9,7 +9,10 @@ export interface UserProfileInterface {
   id: string;
   username: string;
   isManager: boolean;
-  store?: string;
+  store?: {
+    id: string;
+    name: string;
+  };
 }
 
 export default function useTokens(): { setTokens: Function; tokens: TokensInterface; isLoggedIn: boolean } {

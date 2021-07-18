@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 function GiftcardList() {
-  const [giftcards, setGiftcards] = useState({
+  const [giftcards] = useState({
     count: 0,
     result: [
       { id: 1, store: { id: 1, name: "현대백화점" } },
