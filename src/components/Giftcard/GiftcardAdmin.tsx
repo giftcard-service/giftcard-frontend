@@ -1,4 +1,6 @@
 import { useForm } from "react-hook-form";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 import { gcs } from "../../utils/types";
 
@@ -12,6 +14,8 @@ function GiftcardAdmin({ history, adminUser, tokens }: GiftcardAdminPropsInterfa
   const {
     register,
     handleSubmit,
+    setValue,
+    getValues,
     formState: { errors },
   } = useForm();
 
@@ -22,6 +26,7 @@ function GiftcardAdmin({ history, adminUser, tokens }: GiftcardAdminPropsInterfa
     expirationTime: Date;
     amount: number;
   }) => {
+    alert(JSON.stringify(data));
     // const { username, storeName } = data;
     // TODO: request updating user with store
   };
@@ -77,42 +82,46 @@ function GiftcardAdmin({ history, adminUser, tokens }: GiftcardAdminPropsInterfa
         </label>
 
         <label className="flex flex-col flex-shrink-0 mb-3">
-          <div className="flex flex-row items-center whitespace-nowrap">
-            <p className="w-full font-bold">발급일</p>
-            <input
-              className="p-1 w-full rounded-md border-2 border-gray-500"
-              type="text"
-              placeholder="발급일"
-              {...register("creationTime", validators.creationTimeValidator)}
-            />
+          <div className="flex flex-row whitespace-nowrap">
+            <p className="w-full font-bold pt-1">유효 기간</p>
+            <div className="flex flex-col w-full">
+              <DatePicker
+                className="w-full p-1 items-center rounded-md border-2 border-gray-500"
+                // selected={getValues("creationTime")}
+                selectsRange={true}
+                selected={getValues("creationTime")}
+                startDate={getValues("creationTime")}
+                endDate={getValues("expirationTime")}
+                onChange={(dates: [Date, Date]) => {
+                  const [start, end] = dates;
+                  setValue("creationTime", start);
+                  setValue("expirationTime", end);
+                }}
+                placeholderText="유효 기간"
+                dateFormat="MM/dd/yyyy h:mm aa"
+                dropdownMode="select"
+                showYearDropdown
+                showMonthDropdown
+                peekNextMonth
+                showWeekNumbers
+                isClearable={true}
+                withPortal
+              />
+            </div>
           </div>
-          {errors.creationTime && <div className="text-right text-red-600">{errors.creationTime.message}</div>}
         </label>
 
         <label className="flex flex-col flex-shrink-0 mb-3">
           <div className="flex flex-row items-center whitespace-nowrap">
-            <p className="w-full font-bold">만료일</p>
+            <p className="w-full font-bold">금액 (KRW)</p>
             <input
               className="p-1 w-full rounded-md border-2 border-gray-500"
-              type="text"
-              placeholder="만료일"
-              {...register("expirationTime", validators.expirationTimeValidator)}
-            />
-          </div>
-          {errors.expirationTime && <div className="text-right text-red-600">{errors.expirationTime.message}</div>}
-        </label>
-
-        <label className="flex flex-col flex-shrink-0 mb-3">
-          <div className="flex flex-row items-center whitespace-nowrap">
-            <p className="w-full font-bold">금액</p>
-            <input
-              className="p-1 w-full rounded-md border-2 border-gray-500"
-              type="text"
-              placeholder="금액"
+              type="number"
+              placeholder="금액 (KRW)"
+              defaultValue="10000"
               {...register("amount", validators.amountValidator)}
             />
           </div>
-          {errors.amount && <div className="text-right text-red-600">{errors.amount.message}</div>}
         </label>
 
         <div className="flex justify-center items-center">
