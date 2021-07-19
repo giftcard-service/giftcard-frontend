@@ -1,33 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+import { findGiftcards } from "../../services/GiftcardService";
+import useTokens from "../../utils/useTokens";
 
 function GiftcardList() {
-  const [giftcards] = useState({
-    count: 0,
-    result: [
-      { id: 1, store: { id: 1, name: "현대백화점" } },
-      { id: 2, store: { id: 4, name: "신세계백화점" } },
-      { id: 3, store: { id: 2, name: "롯데시네마" } },
-      { id: 4, store: { id: 3, name: "롯데백화점" } },
-      { id: 5, store: { id: 4, name: "신세계백화점" } },
-    ],
-  });
+  const { tokens } = useTokens();
+  const [giftcardList, setGiftcardList] = useState({ items: [] as any[], links: {}, meta: {} });
+
+  useEffect(() => {
+    (async () => {
+      await findGiftcards({ tokens, query: {} }).then((res) => {
+        setGiftcardList(res);
+      });
+    })();
+  }, [tokens]);
 
   return (
     <div className="flex flex-col w-full items-center mx-auto p-4">
-      <h1 className="pb-1 text-xl font-bold mb-3">내 상품권</h1>
+      <h1 className="pb-1 text-xl font-bold mb-2">내 상품권</h1>
       <div className="flex flex-col w-full md:w-1/3">
-        {giftcards.result.map((giftcard) => (
+        {giftcardList.items.map((giftcard) => (
           <div className="flex flex-col items-center p-2 mb-5 rounded-md border-2 border-gray-500 w-full cursor-pointer">
-            <div className="text-xl font-bold">상품권 ID: {giftcard.id}</div>
+            <div className="flex flex-row w-full items-center">
+              <div className="font-bold mr-1">ID:</div>
+              <div className="w-full truncate">{giftcard.id}</div>
+            </div>
             <div className="flex flex-col w-full p-2 rounded-md border-2 border-gray-500">
               <div className="text-center font-bold">매장 정보</div>
-              <div className="flex flex-row text-sm">
-                <div className="font-bold">매장 ID:</div>
-                <div>{giftcard.store.id}</div>
+              <div className="flex flex-row w-full text-sm">
+                <div className="w-1/3 font-bold mr-1">매장 ID:</div>
+                <div className="w-full text-right truncate">{giftcard.store.id}</div>
               </div>
-              <div className="flex flex-row text-sm">
-                <div className="font-bold">매장 이름:</div>
-                <div>{giftcard.store.name}</div>
+              <div className="flex flex-row w-full text-sm">
+                <div className="w-1/3 font-bold mr-1">매장 이름:</div>
+                <div className="w-full text-right truncate">{giftcard.store.name}</div>
               </div>
             </div>
           </div>
