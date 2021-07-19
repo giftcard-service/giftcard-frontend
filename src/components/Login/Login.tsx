@@ -1,11 +1,8 @@
 import { withRouter } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 
 import useTokens from "../../utils/useTokens";
-import { API_V1_URL } from "../../utils/constants";
-import { gcs } from "../../utils/types";
-import { jsonHeader } from "../../services/headers";
+import { loginUser } from "../../services/UserService";
 
 function Login({ history }: { history: any }) {
   const {
@@ -16,29 +13,24 @@ function Login({ history }: { history: any }) {
 
   const { setTokens } = useTokens();
 
-  async function loginUser(credentials: gcs.CredentialsInterface) {
-    return axios
-      .post(API_V1_URL + "/login", JSON.stringify(credentials), {
-        headers: jsonHeader,
-      })
-      .then((res) => {
-        alert("로그인에 성공했습니다!");
-        history.push("/");
-        window.location.reload();
-        return res.data;
-      })
-      .catch((err) => {
-        alert("로그인 정보가 틀립니다!");
-        return null;
-      });
-  }
-
   const onSubmit = async (data: { username: string; password: string }) => {
     const { username, password } = data;
     const tokens = await loginUser({
-      username: username,
-      password: password,
-    });
+      credentials: {
+        username: username,
+        password: password,
+      },
+    })
+      .then((res: any) => {
+        alert("로그인에 성공했습니다!");
+        history.push("/");
+        window.location.reload();
+        return res;
+      })
+      .catch(() => {
+        alert("로그인 정보가 틀립니다!");
+        return null;
+      });
 
     if (setTokens) {
       setTokens(tokens);

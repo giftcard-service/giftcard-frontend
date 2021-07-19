@@ -2,7 +2,21 @@ import axios from "axios";
 
 import { API_V1_URL } from "../utils/constants";
 import { gcs } from "../utils/types";
-import { jsonAuthHeaders } from "./headers";
+import { jsonAuthHeaders, jsonHeader } from "./headers";
+
+const loginUser = async ({ credentials }: { credentials: gcs.CredentialsInterface }) =>
+  await axios
+    .post(API_V1_URL + "/login", JSON.stringify(credentials), {
+      headers: jsonHeader,
+    })
+    .then((res) => res.data);
+
+const registerUser = async (credentials: gcs.CredentialsInterface) =>
+  await axios
+    .post(API_V1_URL + "/users", JSON.stringify(credentials), {
+      headers: jsonHeader,
+    })
+    .then((res) => res.data);
 
 const findUserByUsername = async ({
   tokens,
@@ -32,4 +46,4 @@ const updateUserStore = async ({
     )
     .then((res) => res.data);
 
-export { findUserByUsername, updateUserStore };
+export { loginUser, registerUser, findUserByUsername, updateUserStore };

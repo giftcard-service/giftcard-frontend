@@ -1,10 +1,7 @@
 import { withRouter } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import axios from "axios";
 
-import { API_V1_URL } from "../../utils/constants";
-import { gcs } from "../../utils/types";
-import { jsonHeader } from "../../services/headers";
+import { registerUser } from "../../services/UserService";
 
 function Signup({ history }: { history: any }) {
   const {
@@ -13,31 +10,24 @@ function Signup({ history }: { history: any }) {
     formState: { errors },
   } = useForm();
 
-  async function registerUser(credentials: gcs.CredentialsInterface) {
-    return axios
-      .post(API_V1_URL + "/users", JSON.stringify(credentials), {
-        headers: jsonHeader,
-      })
-      .then((res) => {
-        alert("회원가입에 성공했습니다!");
-        history.push("/");
-        window.location.reload();
-        return res.data;
-      })
-      .catch((err) => {
-        console.error(err.response.data);
-        alert("회원가입에 실패했습니다.");
-        return null;
-      });
-  }
-
-  const onSubmit = (data: { username: string; password: string; password2: string }) => {
+  const onSubmit = async (data: { username: string; password: string; password2: string }) => {
     const { username, password, password2 } = data;
 
     if (password !== password2) {
       alert("비밀번호와 비밀번호 확인 내용이 일치하지 않습니다.");
     } else {
-      registerUser({ username, password: password });
+      await registerUser({ username, password })
+        .then((res) => {
+          alert("회원가입에 성공했습니다!");
+          history.push("/");
+          window.location.reload();
+          return res;
+        })
+        .catch((err) => {
+          console.error(err.response.data);
+          alert("회원가입에 실패했습니다.");
+          return null;
+        });
     }
   };
 
