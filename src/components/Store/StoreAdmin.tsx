@@ -1,8 +1,7 @@
-import axios from "axios";
 import { useForm } from "react-hook-form";
 
-import { jsonAuthHeaders } from "../../services/headers";
-import { API_V1_URL } from "../../utils/constants";
+import { findStoreByName } from "../../services/StoreService";
+import { findUserByUsername, updateUserStore } from "../../services/UserService";
 import { gcs } from "../../utils/types";
 
 interface StoreAdminPropsInterface {
@@ -21,42 +20,13 @@ function StoreAdmin({ history, adminUser, tokens }: StoreAdminPropsInterface) {
   } = useForm();
 
   const onSubmit = async (data: { username: string; storeName: string; selectUpdateOrRemoveStore: any }) => {
-    const findUserByUsername = async ({
-      query,
-    }: {
-      query: { username: string };
-    }): Promise<{ items: any; links: any; meta: any }> =>
-      await axios
-        .get(API_V1_URL + `/users?username=${query.username}`, { headers: jsonAuthHeaders(tokens.access_token) })
-        .then((res) => res.data);
-
-    const findStoreByName = async ({
-      query,
-    }: {
-      query: { name: string };
-    }): Promise<{ items: any; links: any; meta: any }> =>
-      await axios
-        .get(API_V1_URL + `/stores?name=${query.name}`, { headers: jsonAuthHeaders(tokens.access_token) })
-        .then((res) => res.data);
-
-    const updateUserStore = async ({ userId, data }: { userId: string; data: { storeId?: string | null } }) =>
-      await axios
-        .patch(
-          API_V1_URL + `/users/${userId}`,
-          { storeId: data.storeId },
-          { headers: jsonAuthHeaders(tokens.access_token) }
-        )
-        .then(() => {
-          alert("성공적으로 해당 사용자의 매장 권한을 업데이트했습니다.");
-        });
-
     const { username, storeName, selectUpdateOrRemoveStore } = data;
 
     let existsCondition = { username: false, storeName: false };
 
     if (selectUpdateOrRemoveStore === "UPDATE") {
-      const userRet = await findUserByUsername({ query: { username } });
-      const storeRet = await findStoreByName({ query: { name: storeName } });
+      const userRet = await findUserByUsername({ tokens, query: { username } });
+      const storeRet = await findStoreByName({ tokens, query: { name: storeName } });
 
       existsCondition.username = userRet.items.length > 0;
       existsCondition.storeName = storeRet.items.length > 0;
@@ -64,17 +34,21 @@ function StoreAdmin({ history, adminUser, tokens }: StoreAdminPropsInterface) {
       if (existsCondition.username && existsCondition.storeName) {
         const user = userRet.items[0];
         const store = storeRet.items[0];
-        await updateUserStore({ userId: user.id, data: { storeId: store.id } });
+        await updateUserStore({ tokens, userId: user.id, data: { storeId: store.id } }).then(() => {
+          alert("성공적으로 해당 사용자의 매장 권한을 업데이트했습니다.");
+        });
       }
     }
     if (selectUpdateOrRemoveStore === "REMOVE") {
-      const userRet = await findUserByUsername({ query: { username } });
+      const userRet = await findUserByUsername({ tokens, query: { username } });
 
       existsCondition.username = userRet.items.length > 0;
 
       if (existsCondition.username) {
         const user = userRet.items[0];
-        await updateUserStore({ userId: user.id, data: { storeId: null } });
+        await updateUserStore({ tokens, userId: user.id, data: { storeId: null } }).then(() => {
+          alert("성공적으로 해당 사용자의 매장 권한을 업데이트했습니다.");
+        });
       }
     }
 

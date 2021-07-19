@@ -18,4 +18,30 @@ export namespace gcs {
       name: string;
     };
   }
+
+  export interface GiftcardInterface {
+    ownerId: string;
+    storeId: string;
+    amount: number;
+    creationTime: Date | string;
+    expirationTime: Date | string;
+    isUsed?: boolean;
+  }
+
+  export interface PaginationResponseInterface {
+    items: Array<any>;
+    links: {
+      first: string;
+      previous: string;
+      next: string;
+      last: string;
+    };
+    meta: {
+      totalItems: number;
+      itemCount: number;
+      itemsPerPage: number;
+      totalPages: number;
+      currentPage: number;
+    };
+  }
 }
