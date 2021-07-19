@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 
 import { API_V1_URL } from "../../utils/constants";
 import useTokens from "../../utils/useTokens";
+import { jsonAuthHeaders } from "../../services/headers";
 
 function Profile({ history }: { history: any }) {
   const { tokens } = useTokens();
@@ -19,10 +20,7 @@ function Profile({ history }: { history: any }) {
   async function updateUser({ username }: { username: string }) {
     return axios
       .patch(API_V1_URL + `/users/${user.id}`, JSON.stringify({ username }), {
-        headers: {
-          Authorization: "Bearer " + tokens.access_token,
-          "Content-Type": "application/json",
-        },
+        headers: jsonAuthHeaders(tokens.access_token),
       })
       .then(() => {
         alert("정보 수정에 성공했습니다! 반영을 위해 다시 로그인해주세요.");
@@ -45,15 +43,10 @@ function Profile({ history }: { history: any }) {
   useEffect(() => {
     async function getUser() {
       return axios
-        .get("http://localhost:8000/v1/me", {
-          headers: {
-            Authorization: "Bearer " + tokens.access_token,
-            "Content-Type": "application/json",
-          },
+        .get(API_V1_URL + "/me", {
+          headers: jsonAuthHeaders(tokens.access_token),
         })
-        .then((res) => {
-          return res.data;
-        });
+        .then((res) => res.data);
     }
 
     (async () => {

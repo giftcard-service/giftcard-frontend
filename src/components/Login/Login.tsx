@@ -5,6 +5,7 @@ import axios from "axios";
 import useTokens from "../../utils/useTokens";
 import { API_V1_URL } from "../../utils/constants";
 import { gcs } from "../../utils/types";
+import { jsonHeader } from "../../services/headers";
 
 function Login({ history }: { history: any }) {
   const {
@@ -18,9 +19,7 @@ function Login({ history }: { history: any }) {
   async function loginUser(credentials: gcs.CredentialsInterface) {
     return axios
       .post(API_V1_URL + "/login", JSON.stringify(credentials), {
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: jsonHeader,
       })
       .then((res) => {
         alert("로그인에 성공했습니다!");

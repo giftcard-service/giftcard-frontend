@@ -4,6 +4,7 @@ import axios from "axios";
 
 import { API_V1_URL } from "../../utils/constants";
 import { gcs } from "../../utils/types";
+import { jsonHeader } from "../../services/headers";
 
 function Signup({ history }: { history: any }) {
   const {
@@ -15,9 +16,7 @@ function Signup({ history }: { history: any }) {
   async function registerUser(credentials: gcs.CredentialsInterface) {
     return axios
       .post(API_V1_URL + "/users", JSON.stringify(credentials), {
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: jsonHeader,
       })
       .then((res) => {
         alert("회원가입에 성공했습니다!");

@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
+import { jsonAuthHeaders } from "../../services/headers";
 
 import { API_V1_URL } from "../../utils/constants";
 import useTokens from "../../utils/useTokens";
@@ -16,10 +17,7 @@ function Admin({ history }: { history: any }) {
     async function getUser() {
       return axios
         .get(API_V1_URL + "/me", {
-          headers: {
-            Authorization: "Bearer " + tokens.access_token,
-            "Content-Type": "application/json",
-          },
+          headers: jsonAuthHeaders(tokens.access_token),
         })
         .then((res) => res.data);
     }
