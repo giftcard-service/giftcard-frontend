@@ -3,6 +3,9 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 import { gcs } from "../../utils/types";
+import { findUserByUsername } from "../../services/UserService";
+import { findStoreByName } from "../../services/StoreService";
+import { createGiftcard } from "../../services/GiftcardService";
 
 interface GiftcardAdminPropsInterface {
   history: any;
@@ -14,6 +17,7 @@ function GiftcardAdmin({ history, adminUser, tokens }: GiftcardAdminPropsInterfa
   const {
     register,
     handleSubmit,
+    setError,
     setValue,
     getValues,
     formState: { errors },
@@ -26,9 +30,45 @@ function GiftcardAdmin({ history, adminUser, tokens }: GiftcardAdminPropsInterfa
     expirationTime: Date;
     amount: number;
   }) => {
-    alert(JSON.stringify(data));
-    // const { username, storeName } = data;
-    // TODO: request updating user with store
+    const { username, storeName, creationTime, expirationTime, amount } = data;
+
+    if (!creationTime || !expirationTime) {
+      alert("유효기간을 올바르게 설정해주세요.");
+      return;
+    }
+
+    const userRet = await findUserByUsername({ tokens, query: { username } });
+    const storeRet = await findStoreByName({ tokens, query: { name: storeName } });
+
+    let existsCondition = { username: false, storeName: false };
+
+    existsCondition.username = userRet.items.length > 0;
+    existsCondition.storeName = storeRet.items.length > 0;
+
+    if (!existsCondition.username) {
+      setError("username", { type: "invalidUsername", message: `아이디 "${username}"은(는) 존재하지 않습니다.` });
+    }
+    if (!existsCondition.storeName) {
+      setError("storeName", { type: "invalidStoreName", message: `매장 "${storeName}"은(는) 존재하지 않습니다.` });
+    }
+
+    if (existsCondition.username && existsCondition.storeName) {
+      const user = userRet.items[0];
+      const store = storeRet.items[0];
+
+      await createGiftcard({
+        tokens,
+        data: {
+          ownerId: user.id,
+          storeId: store.id,
+          amount: Number(amount),
+          creationTime: creationTime.toISOString(),
+          expirationTime: expirationTime.toISOString(),
+        },
+      })
+        .then(() => alert("상품권을 성공적으로 발급했습니다."))
+        .catch(() => alert("상품권 발급에 실패했습니다."));
+    }
   };
 
   /** `react-hook-form` validators */
