@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { findGiftcards } from "../../services/GiftcardService";
+import { findGiftcardList } from "../../services/GiftcardService";
 import useTokens from "../../utils/useTokens";
 
 function GiftcardList() {
@@ -9,7 +9,7 @@ function GiftcardList() {
 
   useEffect(() => {
     (async () => {
-      await findGiftcards({ tokens, query: {} }).then((res) => {
+      await findGiftcardList({ tokens, query: {} }).then((res) => {
         setGiftcardList(res);
       });
     })();

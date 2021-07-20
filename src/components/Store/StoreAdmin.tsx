@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 
-import { findStoreByName } from "../../services/StoreService";
-import { findUserByUsername, updateUserStore } from "../../services/UserService";
+import { findStoreList } from "../../services/StoreService";
+import { findUserList, updateUserStore } from "../../services/UserService";
 import { gcs } from "../../utils/types";
 
 interface StoreAdminPropsInterface {
@@ -25,8 +25,8 @@ function StoreAdmin({ history, adminUser, tokens }: StoreAdminPropsInterface) {
     let existsCondition = { username: false, storeName: false };
 
     if (selectUpdateOrRemoveStore === "UPDATE") {
-      const userRet = await findUserByUsername({ tokens, query: { username } });
-      const storeRet = await findStoreByName({ tokens, query: { name: storeName } });
+      const userRet = await findUserList({ tokens, query: { username } });
+      const storeRet = await findStoreList({ tokens, query: { name: storeName } });
 
       existsCondition.username = userRet.items.length > 0;
       existsCondition.storeName = storeRet.items.length > 0;
@@ -40,7 +40,7 @@ function StoreAdmin({ history, adminUser, tokens }: StoreAdminPropsInterface) {
       }
     }
     if (selectUpdateOrRemoveStore === "REMOVE") {
-      const userRet = await findUserByUsername({ tokens, query: { username } });
+      const userRet = await findUserList({ tokens, query: { username } });
 
       existsCondition.username = userRet.items.length > 0;
 

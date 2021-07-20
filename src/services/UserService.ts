@@ -18,7 +18,7 @@ const registerUser = async (credentials: gcs.CredentialsInterface) =>
     })
     .then((res) => res.data);
 
-const findUserByUsername = async ({
+const findUserList = async ({
   tokens,
   query,
 }: {
@@ -26,7 +26,12 @@ const findUserByUsername = async ({
   query: { username: string };
 }): Promise<gcs.PaginationResponseInterface> =>
   await axios
-    .get(API_V1_URL + `/users?username=${query.username}`, { headers: jsonAuthHeaders(tokens.access_token) })
+    .get(API_V1_URL + "/users", {
+      params: {
+        username: query.username,
+      },
+      headers: jsonAuthHeaders(tokens.access_token),
+    })
     .then((res) => res.data);
 
 const updateUserStore = async ({
@@ -46,4 +51,4 @@ const updateUserStore = async ({
     )
     .then((res) => res.data);
 
-export { loginUser, registerUser, findUserByUsername, updateUserStore };
+export { loginUser, registerUser, findUserList, updateUserStore };

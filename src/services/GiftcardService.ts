@@ -9,27 +9,19 @@ const createGiftcard = async ({ tokens, data }: { tokens: gcs.TokensInterface; d
     .post(API_V1_URL + `/giftcards`, data, { headers: jsonAuthHeaders(tokens.access_token) })
     .then((res) => res.data);
 
-const findGiftcards = async ({
+const findGiftcardList = async ({
   tokens,
   query,
 }: {
   tokens: gcs.TokensInterface;
   query?: { userId?: string; storeId?: string };
 }): Promise<gcs.PaginationResponseInterface> => {
-  let url = API_V1_URL + `/giftcards?`;
-
-  if (query?.userId) {
-    url += `user-id=${query.userId}&`;
-  }
-  if (query?.storeId) {
-    url += `store-id=${query.storeId}&`;
-  }
-
   return await axios
-    .get(url, {
+    .get(API_V1_URL + "/giftcards", {
+      params: { "user-id": query?.userId, "store-id": query?.storeId },
       headers: jsonAuthHeaders(tokens.access_token),
     })
     .then((res) => res.data);
 };
 
-export { createGiftcard, findGiftcards };
+export { createGiftcard, findGiftcardList };

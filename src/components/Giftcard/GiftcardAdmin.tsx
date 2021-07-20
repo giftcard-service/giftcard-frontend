@@ -3,8 +3,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 import { gcs } from "../../utils/types";
-import { findUserByUsername } from "../../services/UserService";
-import { findStoreByName } from "../../services/StoreService";
+import { findUserList } from "../../services/UserService";
+import { findStoreList } from "../../services/StoreService";
 import { createGiftcard } from "../../services/GiftcardService";
 
 interface GiftcardAdminPropsInterface {
@@ -37,8 +37,8 @@ function GiftcardAdmin({ history, adminUser, tokens }: GiftcardAdminPropsInterfa
       return;
     }
 
-    const userRet = await findUserByUsername({ tokens, query: { username } });
-    const storeRet = await findStoreByName({ tokens, query: { name: storeName } });
+    const userRet = await findUserList({ tokens, query: { username } });
+    const storeRet = await findStoreList({ tokens, query: { name: storeName } });
 
     let existsCondition = { username: false, storeName: false };
 

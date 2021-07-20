@@ -4,7 +4,7 @@ import { API_V1_URL } from "../utils/constants";
 import { gcs } from "../utils/types";
 import { jsonAuthHeaders } from "./headers";
 
-const findStoreByName = async ({
+const findStoreList = async ({
   tokens,
   query,
 }: {
@@ -12,7 +12,10 @@ const findStoreByName = async ({
   query: { name: string };
 }): Promise<gcs.PaginationResponseInterface> =>
   await axios
-    .get(API_V1_URL + `/stores?name=${query.name}`, { headers: jsonAuthHeaders(tokens.access_token) })
+    .get(API_V1_URL + "/stores", {
+      params: { name: query.name },
+      headers: jsonAuthHeaders(tokens.access_token),
+    })
     .then((res) => res.data);
 
-export { findStoreByName };
+export { findStoreList };
