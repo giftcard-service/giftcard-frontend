@@ -1,10 +1,17 @@
+import { useHistory } from "react-router-dom";
+
 interface GiftcardItemPropsInterface {
   giftcard: { id: string; store: { id: string; name: string } };
 }
 
 function GiftcardItem({ giftcard }: GiftcardItemPropsInterface) {
+  const history = useHistory();
+
   return (
-    <div className="flex flex-col items-center p-2 mb-5 rounded-md border-2 border-gray-500 w-full cursor-pointer">
+    <div
+      className="flex flex-col items-center p-2 mb-5 rounded-md border-2 border-gray-500 w-full cursor-pointer"
+      onClick={() => history.push(`/giftcards/${giftcard.id}`)}
+    >
       <div className="flex flex-row w-full items-center">
         <div className="font-bold mr-1">ID:</div>
         <div className="w-full truncate">{giftcard.id}</div>

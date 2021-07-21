@@ -10,6 +10,7 @@ import Login from "./components/Login/Login";
 import Admin from "./components/Admin/Admin";
 import NotFound from "./components/Error/NotFound";
 import Unauthorized from "./components/Error/Unauthorized";
+import GiftcardDetail from "./components/Giftcard/GiftcardDetail";
 
 function App() {
   return (
@@ -27,6 +28,7 @@ function App() {
             <Route exact path="/logout">
               <Redirect to="/" />
             </Route>
+            <Route exact path="/giftcards/:giftcardId" component={GiftcardDetail} />
             <Route exact path="/unauthorized" component={Unauthorized} />
             <Route component={NotFound} />
           </Switch>

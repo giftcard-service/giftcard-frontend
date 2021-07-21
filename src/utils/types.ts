@@ -28,6 +28,15 @@ export namespace gcs {
     isUsed?: boolean;
   }
 
+  export interface GiftcardResponseInterface {
+    id: string;
+    store: { id: string; name: string };
+    amount: number;
+    creationTime: Date | string;
+    expirationTime: Date | string;
+    isUsed?: boolean;
+  }
+
   export interface PaginationResponseInterface {
     items: Array<any>;
     links: {
