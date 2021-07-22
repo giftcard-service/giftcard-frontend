@@ -35,6 +35,7 @@ export namespace gcs {
 
   export interface GiftcardResponseInterface {
     id: string;
+    owner: { id: string; username: string; store: string };
     store: { id: string; name: string };
     amount: number;
     amountLeft: number;

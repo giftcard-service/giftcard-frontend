@@ -1,7 +1,13 @@
 import { useHistory } from "react-router-dom";
 
 interface GiftcardItemPropsInterface {
-  giftcard: { id: string; store: { id: string; name: string }; amount: number; amountLeft: number };
+  giftcard: {
+    id: string;
+    owner: { id: string; username: string };
+    store: { id: string; name: string };
+    amount: number;
+    amountLeft: number;
+  };
 }
 
 function GiftcardItem({ giftcard }: GiftcardItemPropsInterface) {
@@ -15,6 +21,13 @@ function GiftcardItem({ giftcard }: GiftcardItemPropsInterface) {
       <div className="text-center font-bold text-xl">상품권</div>
       <div className="w-full truncate">{giftcard.id}</div>
       <div className="flex flex-col w-full p-2 rounded-md border-2 border-gray-500">
+        <div className="text-center font-bold">소유자 정보</div>
+        <div className="flex flex-row w-full text-sm">
+          <div className="w-1/3 font-bold mr-1">아이디:</div>
+          <div className="w-full text-right truncate">{giftcard.owner.username}</div>
+        </div>
+        <div className="w-full h-px bg-gray-500 my-2" />
+
         <div className="text-center font-bold">매장 정보</div>
         <div className="flex flex-row w-full text-sm">
           <div className="w-1/3 font-bold mr-1">매장 ID:</div>
@@ -25,6 +38,7 @@ function GiftcardItem({ giftcard }: GiftcardItemPropsInterface) {
           <div className="w-full text-right truncate">{giftcard.store.name}</div>
         </div>
         <div className="w-full h-px bg-gray-500 my-2" />
+
         <div className="text-center font-bold">금액 정보</div>
         <div className="flex flex-row w-full items-center text-sm text-gray-500">
           <div className="w-full font-bold mr-1">발급 금액:</div>

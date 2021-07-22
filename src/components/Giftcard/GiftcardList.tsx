@@ -6,9 +6,10 @@ import { getUser } from "../../services/UserService";
 import useTokens from "../../utils/useTokens";
 import GiftcardItem from "./GiftcardItem";
 
-function GiftcardList() {
+function GiftcardList({ location }: { location?: { search: string } }) {
   const { tokens } = useTokens();
   const [user, setUser] = useState<{ id: string }>({ id: "" });
+  const [storeId, setStoreId] = useState(new URLSearchParams(location?.search).get("store-id") || undefined);
   const [giftcardList, setGiftcardList] = useState({
     items: [] as any[],
     links: {},
@@ -33,7 +34,15 @@ function GiftcardList() {
         return res;
       });
 
-      await findGiftcardList({ tokens, query: { page: 1, limit: PER_PAGE, userId: tempUser.id } }).then((res) => {
+      let tempStoreId = undefined;
+      if (tempUser.store && storeId) {
+        tempStoreId = storeId;
+      }
+
+      await findGiftcardList({
+        tokens,
+        query: { page: 1, limit: PER_PAGE, userId: tempUser.id, storeId: tempStoreId },
+      }).then((res) => {
         setGiftcardList(res);
       });
     })();
@@ -41,7 +50,9 @@ function GiftcardList() {
 
   return (
     <div className="flex flex-col w-full items-center mx-auto p-4">
-      <h1 className="pb-1 text-xl font-bold mb-2">{`내 상품권: 총 ${giftcardList.meta.totalItems}개`}</h1>
+      <h1 className="pb-1 text-xl font-bold mb-2">{`${storeId ? "매장" : `매장`} 상품권: 총 ${
+        giftcardList.meta.totalItems
+      }개`}</h1>
       {user ? (
         <Fragment>
           <div className="flex flex-col w-full md:w-1/3">

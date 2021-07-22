@@ -111,6 +111,20 @@ function Profile({ history }: { history: any }) {
           </button>
         )}
 
+        {user.store && (
+          <button
+            className="rounded-md bg-gray-600 text-white font-bold p-2 mr-2"
+            onClick={() => {
+              history.push({
+                pathname: "/giftcards",
+                search: "?" + new URLSearchParams({ "store-id": user.store.id }).toString(),
+              });
+            }}
+          >
+            매장 상품권 관리
+          </button>
+        )}
+
         <button
           className="rounded-md bg-gray-600 text-white font-bold p-2 mr-2"
           onClick={() => {

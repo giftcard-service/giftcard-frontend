@@ -61,6 +61,11 @@ function GiftcardDetail() {
           </div>
           <div className="w-full h-px bg-gray-500 mb-2" />
           <div className="flex flex-row w-full items-center mb-2">
+            <div className="w-full font-bold mr-1">소유자:</div>
+            <div className="w-full text-right">{giftcard?.owner?.username}</div>
+          </div>
+          <div className="w-full h-px bg-gray-500 mb-2" />
+          <div className="flex flex-row w-full items-center mb-2">
             <div className="w-full font-bold mr-1">만료일:</div>
             <div className="w-full text-right truncate">
               {moment(giftcard?.expirationTime).format("YYYY/MM/DD, HH:mm:ss")}
@@ -108,7 +113,10 @@ function GiftcardDetail() {
               className="rounded-md bg-gray-600 text-white font-bold p-2"
               onClick={(e) => {
                 e.preventDefault();
-                history.push({ pathname: "/giftcard-give", search: `?giftcard-id=${giftcard.id}` });
+                history.push({
+                  pathname: "/giftcard-give",
+                  search: "?" + new URLSearchParams({ "giftcard-id": giftcard.id }).toString(),
+                });
               }}
             >
               소유권 이전
@@ -118,7 +126,10 @@ function GiftcardDetail() {
               className="rounded-md bg-gray-600 text-white font-bold p-2"
               onClick={(e) => {
                 e.preventDefault();
-                history.push({ pathname: "/giftcard-purchases", search: `?giftcard-id=${giftcard.id}` });
+                history.push({
+                  pathname: "/giftcard-purchases",
+                  search: "?" + new URLSearchParams({ "giftcard-id": giftcard.id }).toString(),
+                });
               }}
             >
               사용 내역 조회

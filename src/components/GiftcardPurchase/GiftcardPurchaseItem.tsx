@@ -18,15 +18,19 @@ function GiftcardPurchaseItem({ giftcardPurchase }: GiftcardPurchaseItemPropsInt
   return (
     <div className="flex flex-col items-center p-2 mb-5 rounded-md border-2 border-gray-500 w-full">
       <div className="flex flex-row w-full items-center">
-        <div className="w-1/3 font-bold mr-1">구매 ID:</div>
-        <div className="w-full truncate">{giftcardPurchase?.giftcard.id}</div>
+        <div className="w-2/3 font-bold mr-1">구매 ID:</div>
+        <div className="w-full text-right truncate">{giftcardPurchase?.giftcard.id}</div>
+      </div>
+      <div className="flex flex-row w-full items-center">
+        <div className="w-2/3 font-bold mr-1">사용자 아이디:</div>
+        <div className="w-full text-right truncate">{giftcardPurchase?.user.username}</div>
       </div>
       <div className="flex flex-row w-full items-center text-green-500">
-        <div className="w-1/3 font-bold mr-1">사용 금액:</div>
+        <div className="w-2/3 font-bold mr-1">사용 금액:</div>
         <div className="w-full text-right truncate">{giftcardPurchase?.amount + "원"}</div>
       </div>
       <div className="flex flex-row w-full items-center">
-        <div className="w-1/3 font-bold mr-1">사용일:</div>
+        <div className="w-2/3 font-bold mr-1">사용일:</div>
         <div className="w-full text-right truncate">
           {moment(giftcardPurchase?.creationTime).format("YYYY/MM/DD, HH:mm:ss")}
         </div>

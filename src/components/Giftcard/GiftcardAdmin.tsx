@@ -37,45 +37,41 @@ function GiftcardAdmin({ history, adminUser, tokens }: GiftcardAdminPropsInterfa
       return;
     }
 
-    const userRet = await findUserList({ tokens, query: { username } });
+    let user = undefined;
+    if (username) {
+      const userRet = await findUserList({ tokens, query: { username } });
+      if (!(userRet.items.length > 0)) {
+        setError("username", { type: "invalidUsername", message: `아이디 "${username}"은(는) 존재하지 않습니다.` });
+        return;
+      } else {
+        user = username && userRet.items[0];
+      }
+    }
     const storeRet = await findStoreList({ tokens, query: { name: storeName } });
-
-    let existsCondition = { username: false, storeName: false };
-
-    existsCondition.username = userRet.items.length > 0;
-    existsCondition.storeName = storeRet.items.length > 0;
-
-    if (!existsCondition.username) {
-      setError("username", { type: "invalidUsername", message: `아이디 "${username}"은(는) 존재하지 않습니다.` });
-    }
-    if (!existsCondition.storeName) {
+    if (!(storeRet.items.length > 0)) {
       setError("storeName", { type: "invalidStoreName", message: `매장 "${storeName}"은(는) 존재하지 않습니다.` });
+      return;
     }
 
-    if (existsCondition.username && existsCondition.storeName) {
-      const user = userRet.items[0];
-      const store = storeRet.items[0];
+    const store = storeRet.items[0];
 
-      await createGiftcard({
-        tokens,
-        data: {
-          ownerId: user.id,
-          storeId: store.id,
-          amount: Number(amount),
-          creationTime: creationTime.toISOString(),
-          expirationTime: expirationTime.toISOString(),
-        },
-      })
-        .then(() => alert("상품권을 성공적으로 발급했습니다."))
-        .catch(() => alert("상품권 발급에 실패했습니다."));
-    }
+    await createGiftcard({
+      tokens,
+      data: {
+        ownerId: user?.id,
+        storeId: store.id,
+        amount: Number(amount),
+        creationTime: creationTime.toISOString(),
+        expirationTime: expirationTime.toISOString(),
+      },
+    })
+      .then(() => alert("상품권을 성공적으로 발급했습니다."))
+      .catch((err) => alert("상품권 발급에 실패했습니다." + JSON.stringify(err.response.data)));
   };
 
   /** `react-hook-form` validators */
   const validators = {
-    usernameValidator: {
-      required: "권한을 부여할 사용자 아이디를 입력하세요.",
-    },
+    usernameValidator: {},
     storeNameValidator: {
       required: "매장 이름을 입력하세요.",
     },
