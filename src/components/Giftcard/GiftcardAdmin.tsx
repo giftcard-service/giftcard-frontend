@@ -110,7 +110,7 @@ function GiftcardAdmin({ history, adminUser, tokens }: GiftcardAdminPropsInterfa
 
         <label className="flex flex-col flex-shrink-0 mb-3">
           <div className="flex flex-row items-center whitespace-nowrap">
-            <p className="w-full font-bold">매장 이름</p>
+            <p className="w-full font-bold">*매장 이름</p>
             <input
               className="p-1 w-full rounded-md border-2 border-gray-500"
               type="text"
@@ -123,7 +123,7 @@ function GiftcardAdmin({ history, adminUser, tokens }: GiftcardAdminPropsInterfa
 
         <label className="flex flex-col flex-shrink-0 mb-3">
           <div className="flex flex-row whitespace-nowrap">
-            <p className="w-full font-bold pt-1">유효 기간</p>
+            <p className="w-full font-bold pt-1">*유효 기간</p>
             <div className="flex flex-col w-full">
               <DatePicker
                 className="w-full p-1 items-center rounded-md border-2 border-gray-500"
@@ -153,7 +153,7 @@ function GiftcardAdmin({ history, adminUser, tokens }: GiftcardAdminPropsInterfa
 
         <label className="flex flex-col flex-shrink-0 mb-3">
           <div className="flex flex-row items-center whitespace-nowrap">
-            <p className="w-full font-bold">금액 (KRW)</p>
+            <p className="w-full font-bold">*금액 (KRW)</p>
             <input
               className="p-1 w-full rounded-md border-2 border-gray-500"
               type="number"

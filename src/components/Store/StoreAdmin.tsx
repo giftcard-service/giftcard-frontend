@@ -77,7 +77,7 @@ function StoreAdmin({ history, adminUser, tokens }: StoreAdminPropsInterface) {
       <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
         <label className="flex flex-col flex-shrink-0 mb-3">
           <div className="flex flex-row items-center whitespace-nowrap">
-            <p className="w-full font-bold">매장 권한</p>
+            <p className="w-full font-bold">*매장 권한</p>
 
             <div className="flex w-full justify-between items-center">
               <div className="mr-2">
@@ -106,7 +106,7 @@ function StoreAdmin({ history, adminUser, tokens }: StoreAdminPropsInterface) {
 
         <label className="flex flex-col flex-shrink-0 mb-3">
           <div className="flex flex-row items-center whitespace-nowrap">
-            <p className="w-full font-bold">사용자 아이디</p>
+            <p className="w-full font-bold">*사용자 아이디</p>
             <input
               className="p-1 w-full rounded-md border-2 border-gray-500"
               type="text"
@@ -120,7 +120,7 @@ function StoreAdmin({ history, adminUser, tokens }: StoreAdminPropsInterface) {
         {getValues("selectUpdateOrRemoveStore") === "UPDATE" && (
           <label className="flex flex-col flex-shrink-0 mb-3">
             <div className="flex flex-row items-center whitespace-nowrap">
-              <p className="w-full font-bold">매장 이름</p>
+              <p className="w-full font-bold">*매장 이름</p>
               <input
                 className="p-1 w-full rounded-md border-2 border-gray-500"
                 type="text"
