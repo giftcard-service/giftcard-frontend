@@ -6,9 +6,10 @@ import { getUser } from "../../services/UserService";
 import useTokens from "../../utils/useTokens";
 import GiftcardPurchaseItem from "./GiftcardPurchaseItem";
 
-function GiftcardPurchaseList() {
+function GiftcardPurchaseList({ location }: { location: { search: string } }) {
   const { tokens } = useTokens();
   const [user, setUser] = useState<{ id: string }>({ id: "" });
+  const [giftcardId, setGiftcardId] = useState(new URLSearchParams(location.search).get("giftcard-id") || undefined);
   const [giftcardPurchaseList, setGiftcardPurchaseList] = useState({
     items: [] as any[],
     links: {},
@@ -32,7 +33,10 @@ function GiftcardPurchaseList() {
         .then((res) => setUser(res))
         .then(async () => {
           if (user) {
-            await findGiftcardPurchaseList({ tokens, query: {} }).then((res) => {
+            await findGiftcardPurchaseList({
+              tokens,
+              query: { giftcardId },
+            }).then((res) => {
               setGiftcardPurchaseList(res);
             });
           }
@@ -43,6 +47,7 @@ function GiftcardPurchaseList() {
   return (
     <div className="flex flex-col w-full items-center mx-auto p-4">
       <h1 className="pb-1 text-xl font-bold mb-2">{`내 상품권 이용 내역: 총 ${giftcardPurchaseList.meta.totalItems}개`}</h1>
+      {giftcardId && <h1 className="pb-1 text-lg font-bold mb-2 text-gray-500">{`(상품권 ID 조회: ${giftcardId})`}</h1>}
       <div className="flex flex-col w-full md:w-1/3">
         {giftcardPurchaseList.items.map((giftcardPurchase) => (
           <GiftcardPurchaseItem giftcardPurchase={giftcardPurchase} />

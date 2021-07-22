@@ -1,6 +1,6 @@
 import moment from "moment";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 import { getGiftcard } from "../../services/GiftcardService";
 import { createAndGetQrCode } from "../../services/QrCodeService";
@@ -15,6 +15,7 @@ interface ParamTypes {
 
 function GiftcardDetail() {
   const { tokens } = useTokens();
+  const history = useHistory();
   const { giftcardId } = useParams<ParamTypes>();
   const [user, setUser] = useState<gcs.UserProfileInterface | null>(null);
   const [giftcard, setGiftcard] = useState<gcs.GiftcardResponseInterface | null>(null);
@@ -87,7 +88,8 @@ function GiftcardDetail() {
             <div className="w-full font-bold mr-1">매장 이름:</div>
             <div className="w-full text-right">{giftcard?.store?.name}</div>
           </div>
-          <div className="flex flex-col w-full p-2 items-center border-2 border-gray-500">
+          <div className="w-full h-px bg-gray-500 mb-2" />
+          <div className="flex flex-col w-full p-2 items-center border-2 border-gray-500 mb-2">
             <div className="w-full text-center mb-4 font-bold text-2xl">QR 코드</div>
             <div className="w-2/3 md:w-1/2 border-4 border-gray-500">
               <QrCode
@@ -100,6 +102,16 @@ function GiftcardDetail() {
               />
             </div>
           </div>
+          <div className="w-full h-px bg-gray-500 mb-2" />
+          <button
+            className="rounded-md bg-gray-600 text-white font-bold p-2"
+            onClick={(e) => {
+              e.preventDefault();
+              history.push({ pathname: "/giftcard-purchases", search: `?giftcard-id=${giftcard.id}` });
+            }}
+          >
+            사용 내역 조회
+          </button>
         </div>
       )}
     </div>
