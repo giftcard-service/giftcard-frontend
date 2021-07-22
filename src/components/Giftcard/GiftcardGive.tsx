@@ -1,40 +1,61 @@
 import moment from "moment";
 import { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { useForm } from "react-hook-form";
 
-import { getGiftcard } from "../../services/GiftcardService";
-import { createAndGetQrCode } from "../../services/QrCodeService";
-import { getUser } from "../../services/UserService";
+import { getGiftcard, updateGiftcard } from "../../services/GiftcardService";
+import { findUserList, getUser } from "../../services/UserService";
 import { gcs } from "../../utils/types";
 import useTokens from "../../utils/useTokens";
-import QrCode from "../QrScan/QrCode";
 
-interface ParamTypes {
-  giftcardId: string;
-}
-
-function GiftcardDetail() {
+function GiftcardGive({ location }: { location: { search: string } }) {
   const { tokens } = useTokens();
   const history = useHistory();
-  const { giftcardId } = useParams<ParamTypes>();
   const [user, setUser] = useState<gcs.UserProfileInterface | null>(null);
+  const [giftcardId, setGiftcardId] = useState(new URLSearchParams(location.search).get("giftcard-id") || "");
   const [giftcard, setGiftcard] = useState<gcs.GiftcardResponseInterface | null>(null);
-  const [qrCode, setQrCode] = useState<gcs.QrCodeResponseInterface | null>(null);
-  const [updateQrInterval, setUpdateQrInterval] = useState<any>(null);
+
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm();
+
+  const validators = {
+    usernameValidator: {
+      required: "소유권을 이전할 사용자 이름을 입력하세요.",
+    },
+  };
+
+  const onSubmit = async (data: { username: string }) => {
+    const { username } = data;
+
+    const userRet = await findUserList({ tokens, query: { username } });
+
+    if (!(userRet.items.length > 0)) {
+      setError("username", { type: "invalidUsername", message: `아이디 "${username}"은(는) 존재하지 않습니다.` });
+      return;
+    }
+
+    await updateGiftcard({ tokens, giftcardId, data: { ownerId: userRet.items[0].id } })
+      .then(() => {
+        alert("소유권 이전에 성공했습니다!");
+        history.push("/giftcards");
+      })
+      .catch(() => {
+        alert("소유권 이전에 실패했습니다.");
+      });
+  };
 
   useEffect(() => {
-    const setNewQrCode = async (giftcardId: string) => {
-      await createAndGetQrCode({ tokens, data: { giftcardId: giftcardId } }).then((res) => {
-        setQrCode(res);
-      });
-    };
+    if (!giftcardId) {
+      history.push("/not-found");
+    }
 
     (async () => {
       await getGiftcard({ tokens, giftcardId }).then(async (res) => {
         setGiftcard(res);
-        await createAndGetQrCode({ tokens, data: { giftcardId: res.id } }).then(async (res) => {
-          setQrCode(res);
-        });
       });
 
       (async () => {
@@ -42,18 +63,12 @@ function GiftcardDetail() {
         setUser(user);
       })();
     })();
-
-    setUpdateQrInterval(setInterval(async () => await setNewQrCode(giftcardId), 30000));
-
-    return () => {
-      clearInterval(updateQrInterval);
-    };
   }, [tokens, giftcardId]);
 
   return (
     <div className="max-w-screen-xl mx-auto w-full flex flex-col items-center p-4">
-      <h1 className="pb-5 text-xl font-bold">상품권 정보</h1>
-      {giftcard && user && (
+      <h1 className="pb-5 text-xl font-bold">상품권 소유권 이전</h1>
+      {giftcardId && giftcard && user && (
         <div className="flex flex-col w-full md:w-1/2 items-center p-2 mb-5 rounded-md border-2 border-gray-500">
           <div className="flex flex-row w-full items-center mb-2">
             <div className="w-full font-bold mr-1">상품권 ID:</div>
@@ -89,45 +104,29 @@ function GiftcardDetail() {
             <div className="w-full text-right">{giftcard?.store?.name}</div>
           </div>
           <div className="w-full h-px bg-gray-500 mb-2" />
-          <div className="flex flex-col w-full p-2 items-center border-2 border-gray-500 mb-2">
-            <div className="w-full text-center mb-4 font-bold text-2xl">QR 코드</div>
-            <div className="w-2/3 md:w-1/2 border-4 border-gray-500">
-              <QrCode
-                value={`${JSON.stringify({
-                  qrCodeId: qrCode?.id,
-                  user: { id: user.id, username: user.username },
-                  storeId: giftcard.store.id,
-                  giftcardId: giftcard.id,
-                })}`}
-              />
+          <form className="flex flex-col w-full items-center" onSubmit={handleSubmit(onSubmit)}>
+            <label className="flex flex-col w-full mb-3">
+              <div className="flex flex-row items-center whitespace-nowrap">
+                <p className="w-full font-bold">사용자 아이디</p>
+                <input
+                  className="p-1 w-full rounded-md border-2 border-gray-500"
+                  type="text"
+                  placeholder="소유권을 이전할 사용자 아이디"
+                  {...register("username", validators.usernameValidator)}
+                />
+              </div>
+              {errors.username && <div className="text-right text-red-600">{errors.username.message}</div>}
+            </label>
+            <div className="">
+              <button type="submit" className="rounded-md bg-gray-600 text-white font-bold p-2">
+                소유권 이전
+              </button>
             </div>
-          </div>
-          <div className="w-full h-px bg-gray-500 mb-2" />
-          <div className="flex flex-row space-x-2">
-            <button
-              className="rounded-md bg-gray-600 text-white font-bold p-2"
-              onClick={(e) => {
-                e.preventDefault();
-                history.push({ pathname: "/giftcard-give", search: `?giftcard-id=${giftcard.id}` });
-              }}
-            >
-              소유권 이전
-            </button>
-
-            <button
-              className="rounded-md bg-gray-600 text-white font-bold p-2"
-              onClick={(e) => {
-                e.preventDefault();
-                history.push({ pathname: "/giftcard-purchases", search: `?giftcard-id=${giftcard.id}` });
-              }}
-            >
-              사용 내역 조회
-            </button>
-          </div>
+          </form>
         </div>
       )}
     </div>
   );
 }
 
-export default GiftcardDetail;
+export default GiftcardGive;

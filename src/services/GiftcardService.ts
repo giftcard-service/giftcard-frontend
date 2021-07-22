@@ -9,6 +9,19 @@ const createGiftcard = async ({ tokens, data }: { tokens: gcs.TokensInterface; d
     .post(API_V1_URL + `/giftcards`, data, { headers: jsonAuthHeaders(tokens.access_token) })
     .then((res) => res.data);
 
+const updateGiftcard = async ({
+  tokens,
+  giftcardId,
+  data,
+}: {
+  tokens: gcs.TokensInterface;
+  giftcardId: string;
+  data: gcs.GiftcardUpdateRequestInterface;
+}) =>
+  await axios
+    .patch(API_V1_URL + `/giftcards/${giftcardId}`, data, { headers: jsonAuthHeaders(tokens.access_token) })
+    .then((res) => res.data);
+
 const getGiftcard = async ({
   tokens,
   giftcardId,
@@ -38,4 +51,4 @@ const findGiftcardList = async ({
     .then((res) => res.data);
 };
 
-export { createGiftcard, getGiftcard, findGiftcardList };
+export { createGiftcard, updateGiftcard, getGiftcard, findGiftcardList };

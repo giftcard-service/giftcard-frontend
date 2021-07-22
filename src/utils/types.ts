@@ -28,6 +28,11 @@ export namespace gcs {
     isUsed?: boolean;
   }
 
+  export interface GiftcardUpdateRequestInterface {
+    ownerId?: string;
+    storeId?: string;
+  }
+
   export interface GiftcardResponseInterface {
     id: string;
     store: { id: string; name: string };
