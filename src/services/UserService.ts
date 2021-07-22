@@ -18,6 +18,13 @@ const registerUser = async (credentials: gcs.CredentialsInterface) =>
     })
     .then((res) => res.data);
 
+const getUser = async ({ tokens }: { tokens: gcs.TokensInterface }) =>
+  await axios
+    .get(API_V1_URL + "/me", {
+      headers: jsonAuthHeaders(tokens.access_token),
+    })
+    .then((res) => res.data);
+
 const findUserList = async ({
   tokens,
   query,
@@ -51,4 +58,4 @@ const updateUserStore = async ({
     )
     .then((res) => res.data);
 
-export { loginUser, registerUser, findUserList, updateUserStore };
+export { loginUser, registerUser, getUser, findUserList, updateUserStore };

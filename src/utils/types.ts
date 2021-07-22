@@ -32,6 +32,7 @@ export namespace gcs {
     id: string;
     store: { id: string; name: string };
     amount: number;
+    amountLeft?: number;
     creationTime: Date | string;
     expirationTime: Date | string;
     isUsed?: boolean;
@@ -39,6 +40,14 @@ export namespace gcs {
 
   export interface QrCodeCreateRequestInterface {
     giftcardId: string;
+  }
+
+  export interface GiftcardPurchaseInterface {
+    userId: string;
+    storeId: string;
+    giftcardId: string;
+    qrCodeId: string;
+    amount: number;
   }
 
   export interface QrCodeResponseInterface {

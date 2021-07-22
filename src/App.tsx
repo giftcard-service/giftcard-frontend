@@ -11,6 +11,7 @@ import Admin from "./components/Admin/Admin";
 import NotFound from "./components/Error/NotFound";
 import Unauthorized from "./components/Error/Unauthorized";
 import GiftcardDetail from "./components/Giftcard/GiftcardDetail";
+import QrRead from "./components/QrScan/QrRead";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/qr" component={QrScan} />
+            <Route exact path="/qr-read" component={QrRead} />
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/admin" component={Admin} />
             <Route exact path="/signup" component={Signup} />

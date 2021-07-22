@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { withRouter } from "react-router-dom";
 import { jsonAuthHeaders } from "../../services/headers";
+import { getUser } from "../../services/UserService";
 
 import { API_V1_URL } from "../../utils/constants";
 import useTokens from "../../utils/useTokens";
@@ -14,16 +15,8 @@ function Admin({ history }: { history: any }) {
   const [user, setUser] = useState({ id: "", username: "", isManager: true, store: { id: "", name: "" } });
 
   useEffect(() => {
-    async function getUser() {
-      return axios
-        .get(API_V1_URL + "/me", {
-          headers: jsonAuthHeaders(tokens.access_token),
-        })
-        .then((res) => res.data);
-    }
-
     (async () => {
-      const user = await getUser();
+      const user = await getUser({ tokens });
       setUser(user);
     })();
 

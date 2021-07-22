@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import { API_V1_URL } from "../../utils/constants";
 import useTokens from "../../utils/useTokens";
 import { jsonAuthHeaders } from "../../services/headers";
+import { getUser } from "../../services/UserService";
 
 function Profile({ history }: { history: any }) {
   const { tokens } = useTokens();
@@ -41,16 +42,8 @@ function Profile({ history }: { history: any }) {
   };
 
   useEffect(() => {
-    async function getUser() {
-      return axios
-        .get(API_V1_URL + "/me", {
-          headers: jsonAuthHeaders(tokens.access_token),
-        })
-        .then((res) => res.data);
-    }
-
     (async () => {
-      const user = await getUser();
+      const user = await getUser({ tokens });
       setUser(user);
       setValue("username", user.username, { shouldValidate: true });
     })();
