@@ -1,3 +1,4 @@
+import moment from "moment";
 import { useHistory } from "react-router-dom";
 
 interface GiftcardItemPropsInterface {
@@ -5,6 +6,7 @@ interface GiftcardItemPropsInterface {
     id: string;
     owner: { id: string; username: string };
     store: { id: string; name: string };
+    expirationTime: Date;
     amount: number;
     amountLeft: number;
   };
@@ -19,7 +21,16 @@ function GiftcardItem({ giftcard }: GiftcardItemPropsInterface) {
       onClick={() => history.push(`/giftcards/${giftcard.id}`)}
     >
       <div className="text-center font-bold text-xl">상품권</div>
-      <div className="w-full truncate">{giftcard.id}</div>
+      <div className="flex flex-row w-full items-center mb-1">
+        <div className="w-2/3 font-bold mr-1">ID:</div>
+        <div className="w-full text-right truncate">{giftcard.id}</div>
+      </div>
+      <div className="flex flex-row w-full items-center mb-1">
+        <div className="w-2/3 font-bold mr-1">만료일:</div>
+        <div className="w-full text-right truncate">
+          {moment(giftcard?.expirationTime).format("YYYY/MM/DD, HH:mm:ss")}
+        </div>
+      </div>
       <div className="flex flex-col w-full p-2 rounded-md border-2 border-gray-500">
         <div className="text-center font-bold">소유자 정보</div>
         <div className="flex flex-row w-full text-sm">

@@ -15,6 +15,7 @@ import QrRead from "./components/QrScan/QrRead";
 import GiftcardPurchaseList from "./components/GiftcardPurchase/GiftcardPurchaseList";
 import GiftcardGive from "./components/Giftcard/GiftcardGive";
 import GiftcardList from "./components/Giftcard/GiftcardList";
+import GiftcardNotificationList from "./components/GiftcardNotification/GiftcardNotificationList";
 
 function App() {
   return (
@@ -29,6 +30,7 @@ function App() {
             <Route exact path="/giftcards" component={GiftcardList} />
             <Route exact path="/giftcard-purchases" component={GiftcardPurchaseList} />
             <Route exact path="/giftcard-give" component={GiftcardGive} />
+            <Route exact path="/notifications" component={GiftcardNotificationList} />
             <Route exact path="/profile" component={Profile} />
             <Route exact path="/admin" component={Admin} />
             <Route exact path="/signup" component={Signup} />

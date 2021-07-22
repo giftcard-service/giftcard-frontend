@@ -16,7 +16,7 @@ function NavigationBar({ history }: { history: any }) {
       ) : (
         <Fragment>
           <NavigationButton name="프로필" onClick={() => history.push("/profile")} />
-          <NavigationButton name="알림" onClick={() => history.push("/alerts")} />
+          <NavigationButton name="알림" onClick={() => history.push("/notifications")} />
           <div className="hidden md:inline">
             <NavigationButton
               name="로그아웃"
