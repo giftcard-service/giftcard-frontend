@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useForm } from "react-hook-form";
 import QrReader from "react-qr-reader";
 
 function QrScan() {
@@ -10,12 +9,9 @@ function QrScan() {
     setAmount(parseInt(e.target.value));
   };
 
-  const [result, setResult] = useState("QR 코드를 인식해주세요.");
-
   const handleScan = (data: any) => {
     if (data) {
       const readResult = { ...JSON.parse(data), amount };
-      setResult(readResult);
       history.push({
         pathname: "/qr-read",
         state: { data: readResult },

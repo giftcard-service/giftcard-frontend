@@ -23,7 +23,7 @@ function QrRead({
 }) {
   const history = useHistory();
   const { tokens } = useTokens();
-  const [qrData, setQrData] = useState({
+  const [qrData] = useState({
     qrCodeId: location.state.data?.qrCodeId,
     user: { id: location.state.data?.user.id, username: location.state.data?.user.username },
     storeId: location.state.data?.storeId,
@@ -41,9 +41,16 @@ function QrRead({
 
   useEffect(() => {
     (async () => {
-      await getGiftcard({ tokens, giftcardId: qrData.giftcardId }).then(async (res) => {
+      const tempGiftcard = await getGiftcard({ tokens, giftcardId: qrData.giftcardId }).then(async (res) => {
         setGiftcard(res);
+        return res;
       });
+
+      if (qrData.amount <= 0 || tempGiftcard.amountLeft < qrData.amount) {
+        alert("올바른 금액을 입력하세요.");
+        history.push("/qr");
+        return;
+      }
 
       if (purchaseState === PurchaseStateEnum.TRYING) {
         await makeGiftcardPurchase({
@@ -61,7 +68,8 @@ function QrRead({
           })
           .catch(() => {
             alert("QR 정보가 올바르지 않거나 만료되었습니다.");
-            history.push("/");
+            history.push("/qr");
+            return;
           });
       }
     })();
