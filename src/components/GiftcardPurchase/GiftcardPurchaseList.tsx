@@ -29,18 +29,19 @@ function GiftcardPurchaseList({ location }: { location: { search: string } }) {
 
   useEffect(() => {
     (async () => {
-      await getUser({ tokens })
-        .then((res) => setUser(res))
-        .then(async () => {
-          if (user) {
-            await findGiftcardPurchaseList({
-              tokens,
-              query: { giftcardId },
-            }).then((res) => {
-              setGiftcardPurchaseList(res);
-            });
-          }
+      (async () => {
+        const tempUser = await getUser({ tokens }).then((res) => {
+          setUser(res);
+          return res;
         });
+
+        await findGiftcardPurchaseList({
+          tokens,
+          query: { giftcardId, userId: tempUser.id },
+        }).then((res) => {
+          setGiftcardPurchaseList(res);
+        });
+      })();
     })();
   }, [tokens]);
 
@@ -50,7 +51,7 @@ function GiftcardPurchaseList({ location }: { location: { search: string } }) {
       {giftcardId && <h1 className="pb-1 text-lg font-bold mb-2 text-gray-500">{`(상품권 ID 조회: ${giftcardId})`}</h1>}
       <div className="flex flex-col w-full md:w-1/3">
         {giftcardPurchaseList.items.map((giftcardPurchase) => (
-          <GiftcardPurchaseItem giftcardPurchase={giftcardPurchase} />
+          <GiftcardPurchaseItem key={giftcardPurchase.id} giftcardPurchase={giftcardPurchase} />
         ))}
       </div>
       <ReactPaginate

@@ -16,10 +16,7 @@ function GiftcardPurchaseItem({ giftcardPurchase }: GiftcardPurchaseItemPropsInt
   const history = useHistory();
 
   return (
-    <div
-      id={giftcardPurchase?.giftcard.id}
-      className="flex flex-col items-center p-2 mb-5 rounded-md border-2 border-gray-500 w-full"
-    >
+    <div className="flex flex-col items-center p-2 mb-5 rounded-md border-2 border-gray-500 w-full">
       <div className="flex flex-row w-full items-center">
         <div className="w-1/3 font-bold mr-1">구매 ID:</div>
         <div className="w-full truncate">{giftcardPurchase?.giftcard.id}</div>
