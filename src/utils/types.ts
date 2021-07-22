@@ -37,6 +37,17 @@ export namespace gcs {
     isUsed?: boolean;
   }
 
+  export interface QrCodeCreateRequestInterface {
+    giftcardId: string;
+  }
+
+  export interface QrCodeResponseInterface {
+    id: string;
+    giftcard: gcs.GiftcardInterface;
+    creationTime: Date | string;
+    expirationTime: Date | string;
+  }
+
   export interface PaginationResponseInterface {
     items: Array<any>;
     links: {
