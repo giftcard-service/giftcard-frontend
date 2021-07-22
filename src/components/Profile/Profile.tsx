@@ -112,6 +112,15 @@ function Profile({ history }: { history: any }) {
         )}
 
         <button
+          className="rounded-md bg-gray-600 text-white font-bold p-2 mr-2"
+          onClick={() => {
+            history.push("/giftcard-purchases");
+          }}
+        >
+          상품권 이용 내역
+        </button>
+
+        <button
           className="rounded-md bg-gray-600 text-white font-bold p-2"
           onClick={() => {
             localStorage.clear();

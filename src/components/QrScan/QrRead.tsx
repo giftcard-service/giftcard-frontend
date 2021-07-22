@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
+
 import { makeGiftcardPurchase } from "../../services/GiftcardPurchaseService";
 import { getGiftcard } from "../../services/GiftcardService";
-import { getUser } from "../../services/UserService";
 import { gcs } from "../../utils/types";
-
 import useTokens from "../../utils/useTokens";
 
 function QrRead({
@@ -56,9 +55,14 @@ function QrRead({
             qrCodeId: qrData.qrCodeId,
             amount: qrData.amount,
           },
-        }).then(() => {
-          setPurchaseState(PurchaseStateEnum.SUCCESS);
-        });
+        })
+          .then(() => {
+            setPurchaseState(PurchaseStateEnum.SUCCESS);
+          })
+          .catch(() => {
+            alert("QR 정보가 올바르지 않거나 만료되었습니다.");
+            history.push("/");
+          });
       }
     })();
   }, []);
@@ -71,7 +75,7 @@ function QrRead({
         {purchaseState === PurchaseStateEnum.TRYING && "QR 정보 조회 완료"}
       </h1>
 
-      {qrData && qrData.qrCodeId && giftcard && (
+      {qrData && qrData.qrCodeId && giftcard && purchaseState === PurchaseStateEnum.SUCCESS && (
         <div className="flex flex-col w-full md:w-1/2 items-center p-2 mb-5 rounded-md border-2 border-gray-500">
           <h1 className="text-xl font-bold mb-2">상품권 정보</h1>
           <div className="w-full h-px bg-gray-500 mb-2" />

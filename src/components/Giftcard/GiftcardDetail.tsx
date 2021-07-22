@@ -55,7 +55,7 @@ function GiftcardDetail() {
       {giftcard && user && (
         <div className="flex flex-col w-full md:w-1/2 items-center p-2 mb-5 rounded-md border-2 border-gray-500">
           <div className="flex flex-row w-full items-center mb-2">
-            <div className="font-bold mr-1">ID:</div>
+            <div className="w-full font-bold mr-1">상품권 ID:</div>
             <div className="w-full text-right truncate">{giftcard?.id}</div>
           </div>
           <div className="w-full h-px bg-gray-500 mb-2" />
@@ -64,6 +64,19 @@ function GiftcardDetail() {
             <div className="w-full text-right truncate">
               {moment(giftcard?.expirationTime).format("YYYY/MM/DD, HH:mm:ss")}
             </div>
+          </div>
+          <div className="w-full h-px bg-gray-500 mb-2" />
+          <div className="flex flex-row w-full items-center mb-2 text-gray-500">
+            <div className="w-full font-bold mr-1">발급 금액:</div>
+            <div className="w-full text-right truncate">{giftcard?.amount}</div>
+          </div>
+          <div className="flex flex-row w-full items-center mb-2 text-red-500">
+            <div className="w-full font-bold mr-1">사용 금액:</div>
+            <div className="w-full text-right truncate">{giftcard?.amount - giftcard?.amountLeft}</div>
+          </div>
+          <div className="flex flex-row w-full items-center mb-2 text-green-500">
+            <div className="w-full font-bold mr-1">잔여 금액:</div>
+            <div className="w-full text-right truncate">{giftcard?.amountLeft}</div>
           </div>
           <div className="w-full h-px bg-gray-500 mb-2" />
           <div className="flex flex-row w-full items-center mb-2">

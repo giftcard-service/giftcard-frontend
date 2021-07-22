@@ -32,7 +32,7 @@ export namespace gcs {
     id: string;
     store: { id: string; name: string };
     amount: number;
-    amountLeft?: number;
+    amountLeft: number;
     creationTime: Date | string;
     expirationTime: Date | string;
     isUsed?: boolean;
