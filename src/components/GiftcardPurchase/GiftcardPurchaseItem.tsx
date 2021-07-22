@@ -24,7 +24,7 @@ function GiftcardPurchaseItem({ giftcardPurchase }: GiftcardPurchaseItemPropsInt
         <div className="w-1/3 font-bold mr-1">구매 ID:</div>
         <div className="w-full truncate">{giftcardPurchase?.giftcard.id}</div>
       </div>
-      <div className="flex flex-row w-full items-center">
+      <div className="flex flex-row w-full items-center text-green-500">
         <div className="w-1/3 font-bold mr-1">사용 금액:</div>
         <div className="w-full text-right truncate">{giftcardPurchase?.amount + "원"}</div>
       </div>

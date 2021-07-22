@@ -28,11 +28,11 @@ const findGiftcardList = async ({
   query,
 }: {
   tokens: gcs.TokensInterface;
-  query?: { userId?: string; storeId?: string };
+  query?: { page?: number; limit?: number; userId?: string; storeId?: string };
 }): Promise<gcs.PaginationResponseInterface> => {
   return await axios
     .get(API_V1_URL + "/giftcards", {
-      params: { "user-id": query?.userId, "store-id": query?.storeId },
+      params: { page: query?.page, limit: query?.limit, "user-id": query?.userId, "store-id": query?.storeId },
       headers: jsonAuthHeaders(tokens.access_token),
     })
     .then((res) => res.data);
