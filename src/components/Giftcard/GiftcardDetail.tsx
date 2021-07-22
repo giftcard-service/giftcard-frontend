@@ -1,3 +1,4 @@
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -60,7 +61,9 @@ function GiftcardDetail() {
           <div className="w-full h-px bg-gray-500 mb-2" />
           <div className="flex flex-row w-full items-center mb-2">
             <div className="w-full font-bold mr-1">만료일:</div>
-            <div className="w-full text-right truncate">{new Date(giftcard?.expirationTime).toDateString()}</div>
+            <div className="w-full text-right truncate">
+              {moment(giftcard?.expirationTime).format("YYYY/MM/DD, HH:mm:ss")}
+            </div>
           </div>
           <div className="w-full h-px bg-gray-500 mb-2" />
           <div className="flex flex-row w-full items-center mb-2">
