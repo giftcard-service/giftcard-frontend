@@ -38,14 +38,16 @@ function GiftcardGive({ location }: { location: { search: string } }) {
       return;
     }
 
-    await updateGiftcard({ tokens, giftcardId, data: { ownerId: userRet.items[0].id } })
-      .then(() => {
-        alert("소유권 이전에 성공했습니다!");
-        history.push("/giftcards");
-      })
-      .catch(() => {
-        alert("소유권 이전에 실패했습니다.");
-      });
+    if (window.confirm("소유권을 정말로 이전하시겠습니까?") === true) {
+      await updateGiftcard({ tokens, giftcardId, data: { ownerId: userRet.items[0].id } })
+        .then(() => {
+          alert("소유권 이전에 성공했습니다!");
+          history.push("/giftcards");
+        })
+        .catch(() => {
+          alert("소유권 이전에 실패했습니다.");
+        });
+    }
   };
 
   useEffect(() => {
