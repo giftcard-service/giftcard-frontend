@@ -126,6 +126,19 @@ function GiftcardDetail() {
               className="rounded-md bg-gray-600 text-white font-bold p-2"
               onClick={(e) => {
                 e.preventDefault();
+                if (window.confirm("상품권을 정말 환불하시겠습니까?") === true) {
+                  console.log("[TODO] 상품권 환불");
+                  alert("상품권을 환불합니다.");
+                }
+              }}
+            >
+              상품권 환불
+            </button>
+
+            <button
+              className="rounded-md bg-gray-600 text-white font-bold p-2"
+              onClick={(e) => {
+                e.preventDefault();
                 history.push({
                   pathname: "/giftcard-purchases",
                   search: "?" + new URLSearchParams({ "giftcard-id": giftcard.id }).toString(),
