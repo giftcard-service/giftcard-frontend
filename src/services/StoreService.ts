@@ -18,4 +18,11 @@ const findStoreList = async ({
     })
     .then((res) => res.data);
 
-export { findStoreList };
+const getStore = async ({ tokens, storeId }: { tokens: gcs.TokensInterface; storeId: string }) =>
+  await axios
+    .get(API_V1_URL + `/stores/${storeId}`, {
+      headers: jsonAuthHeaders(tokens.access_token),
+    })
+    .then((res) => res.data);
+
+export { findStoreList, getStore };

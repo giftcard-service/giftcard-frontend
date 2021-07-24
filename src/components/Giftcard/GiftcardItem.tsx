@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 interface GiftcardItemPropsInterface {
   giftcard: {
     id: string;
-    owner: { id: string; username: string };
+    owner: { id: string; username: string } | null;
     store: { id: string; name: string };
     expirationTime: Date;
     amount: number;
@@ -35,7 +35,7 @@ function GiftcardItem({ giftcard }: GiftcardItemPropsInterface) {
         <div className="text-center font-bold">소유자 정보</div>
         <div className="flex flex-row w-full text-sm">
           <div className="w-1/3 font-bold mr-1">아이디:</div>
-          <div className="w-full text-right truncate">{giftcard.owner.username}</div>
+          <div className="w-full text-right truncate">{giftcard.owner ? giftcard.owner?.username : "없음"}</div>
         </div>
         <div className="w-full h-px bg-gray-500 my-2" />
 

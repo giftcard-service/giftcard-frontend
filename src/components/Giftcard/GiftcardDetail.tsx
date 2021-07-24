@@ -62,7 +62,7 @@ function GiftcardDetail() {
           <div className="w-full h-px bg-gray-500 mb-2" />
           <div className="flex flex-row w-full items-center mb-2">
             <div className="w-full font-bold mr-1">소유자:</div>
-            <div className="w-full text-right">{giftcard?.owner?.username}</div>
+            <div className="w-full text-right">{giftcard.owner ? giftcard.owner?.username : "없음"}</div>
           </div>
           <div className="w-full h-px bg-gray-500 mb-2" />
           <div className="flex flex-row w-full items-center mb-2">

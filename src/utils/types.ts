@@ -19,8 +19,15 @@ export namespace gcs {
     };
   }
 
+  export interface StoreFindOneResponseInterface {
+    id?: string;
+    name?: string;
+    sumIssuedGiftcardAmount?: number;
+    sumIssuedGiftcardAmountLeft?: number;
+  }
+
   export interface GiftcardInterface {
-    ownerId: string;
+    ownerId: string | null;
     storeId: string;
     amount: number;
     creationTime: Date | string;
