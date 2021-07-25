@@ -43,7 +43,7 @@ function GiftcardDetail() {
       })();
     })();
 
-    setUpdateQrInterval(setInterval(async () => await setNewQrCode(giftcardId), 30000));
+    setUpdateQrInterval(setInterval(async () => await setNewQrCode(giftcardId), 50000));
 
     return () => {
       clearInterval(updateQrInterval);
