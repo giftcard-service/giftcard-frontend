@@ -5,6 +5,7 @@ import { getUser } from "../../services/UserService";
 import useTokens from "../../utils/useTokens";
 import GiftcardAdmin from "../Giftcard/GiftcardAdmin";
 import StoreAdmin from "../Store/StoreAdmin";
+import StoreCreate from "../Store/StoreCreate";
 
 function Admin() {
   const { tokens } = useTokens();
@@ -34,13 +35,10 @@ function Admin() {
       ) : (
         <div className="flex flex-col items-center w-full md:w-1/2 p-5 my-5 rounded-md border-2 border-gray-500">
           <h1 className="pb-5 text-xl font-bold">관리자 페이지</h1>
-          <div className="flex flex-col w-full">
-            <div className="mb-3">
-              <StoreAdmin />
-            </div>
-            <div>
-              <GiftcardAdmin />
-            </div>
+          <div className="flex flex-col w-full space-y-3">
+            <StoreCreate />
+            <StoreAdmin />
+            <GiftcardAdmin />
           </div>
         </div>
       )}

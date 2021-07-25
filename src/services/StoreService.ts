@@ -25,4 +25,11 @@ const getStore = async ({ tokens, storeId }: { tokens: gcs.TokensInterface; stor
     })
     .then((res) => res.data);
 
-export { findStoreList, getStore };
+const createStore = async ({ tokens, data }: { tokens: gcs.TokensInterface; data: { name: string } }) =>
+  await axios
+    .post(API_V1_URL + `/stores`, data, {
+      headers: jsonAuthHeaders(tokens.access_token),
+    })
+    .then((res) => res.data);
+
+export { findStoreList, getStore, createStore };
