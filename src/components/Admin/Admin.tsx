@@ -1,16 +1,14 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { withRouter } from "react-router-dom";
-import { jsonAuthHeaders } from "../../services/headers";
-import { getUser } from "../../services/UserService";
+import { useHistory, withRouter } from "react-router-dom";
 
-import { API_V1_URL } from "../../utils/constants";
+import { getUser } from "../../services/UserService";
 import useTokens from "../../utils/useTokens";
 import GiftcardAdmin from "../Giftcard/GiftcardAdmin";
 import StoreAdmin from "../Store/StoreAdmin";
 
-function Admin({ history }: { history: any }) {
+function Admin() {
   const { tokens } = useTokens();
+  const history = useHistory();
   const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState({ id: "", username: "", isManager: true, store: { id: "", name: "" } });
 
@@ -27,7 +25,7 @@ function Admin({ history }: { history: any }) {
         history.push("/unauthorized");
       }
     }
-  }, [tokens, user, history]);
+  }, [tokens, user]);
 
   return (
     <div className="max-w-screen-xl mx-auto w-full flex flex-col items-center p-4">
@@ -38,10 +36,10 @@ function Admin({ history }: { history: any }) {
           <h1 className="pb-5 text-xl font-bold">관리자 페이지</h1>
           <div className="flex flex-col w-full">
             <div className="mb-3">
-              <StoreAdmin history={history} adminUser={user} tokens={tokens} />
+              <StoreAdmin />
             </div>
             <div>
-              <GiftcardAdmin history={history} adminUser={user} tokens={tokens} />
+              <GiftcardAdmin />
             </div>
           </div>
         </div>

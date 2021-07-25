@@ -55,7 +55,7 @@ function GiftcardList({ location }: { location?: { search: string } }) {
       } else {
         await findGiftcardList({
           tokens,
-          query: { page: 1, limit: PER_PAGE, userId: tempUser.id, storeId: tempStoreId },
+          query: { page: 1, limit: PER_PAGE, userId: tempUser.id },
         }).then((res) => {
           setGiftcardList(res);
         });

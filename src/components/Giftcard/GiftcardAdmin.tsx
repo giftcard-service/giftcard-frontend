@@ -2,18 +2,13 @@ import { useForm } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-import { gcs } from "../../utils/types";
 import { findUserList } from "../../services/UserService";
 import { findStoreList } from "../../services/StoreService";
 import { createGiftcard } from "../../services/GiftcardService";
+import { useEffect } from "react";
+import useTokens from "../../utils/useTokens";
 
-interface GiftcardAdminPropsInterface {
-  history: any;
-  adminUser: gcs.UserProfileInterface;
-  tokens: gcs.TokensInterface;
-}
-
-function GiftcardAdmin({ history, adminUser, tokens }: GiftcardAdminPropsInterface) {
+function GiftcardAdmin() {
   const {
     register,
     handleSubmit,
@@ -22,6 +17,7 @@ function GiftcardAdmin({ history, adminUser, tokens }: GiftcardAdminPropsInterfa
     getValues,
     formState: { errors },
   } = useForm();
+  const { tokens } = useTokens();
 
   const onSubmit = async (data: {
     username: string;
@@ -123,7 +119,6 @@ function GiftcardAdmin({ history, adminUser, tokens }: GiftcardAdminPropsInterfa
             <div className="flex flex-col w-full">
               <DatePicker
                 className="w-full p-1 items-center rounded-md border-2 border-gray-500"
-                // selected={getValues("creationTime")}
                 selectsRange={true}
                 selected={getValues("creationTime")}
                 startDate={getValues("creationTime")}

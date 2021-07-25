@@ -2,15 +2,9 @@ import { useForm } from "react-hook-form";
 
 import { findStoreList } from "../../services/StoreService";
 import { findUserList, updateUserStore } from "../../services/UserService";
-import { gcs } from "../../utils/types";
+import useTokens from "../../utils/useTokens";
 
-interface StoreAdminPropsInterface {
-  history: any;
-  adminUser: gcs.UserProfileInterface;
-  tokens: gcs.TokensInterface;
-}
-
-function StoreAdmin({ history, adminUser, tokens }: StoreAdminPropsInterface) {
+function StoreAdmin() {
   const {
     register,
     handleSubmit,
@@ -18,6 +12,7 @@ function StoreAdmin({ history, adminUser, tokens }: StoreAdminPropsInterface) {
     getValues,
     formState: { errors },
   } = useForm();
+  const { tokens } = useTokens();
 
   const onSubmit = async (data: { username: string; storeName: string; selectUpdateOrRemoveStore: any }) => {
     const { username, storeName, selectUpdateOrRemoveStore } = data;
