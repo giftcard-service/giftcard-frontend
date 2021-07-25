@@ -10,11 +10,11 @@ function NavigationBar({ history }: { history: any }) {
   return (
     <div className="navigation-bar flex flex-row justify-between bg-gray-600 text-gray-100 py-2 px-5 md:px-7 lg:px-10">
       <NavigationButton name="메인" onClick={() => history.push("/")} />
-      <NavigationButton name="QR 인식" onClick={() => history.push("/qr")} />
       {!isLoggedIn ? (
         <NavigationButton name="로그인" onClick={() => history.push("/login")} />
       ) : (
         <Fragment>
+          <NavigationButton name="QR 인식" onClick={() => history.push("/qr")} />
           <NavigationButton name="프로필" onClick={() => history.push("/profile")} />
           <NavigationButton name="알림" onClick={() => history.push("/notifications")} />
           <div className="hidden md:inline">
