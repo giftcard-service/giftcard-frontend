@@ -26,6 +26,15 @@ function GiftcardItem({ giftcard }: GiftcardItemPropsInterface) {
         <div className="w-full text-right truncate">{giftcard.id}</div>
       </div>
       <div className="flex flex-row w-full items-center mb-1">
+        <div className="w-2/3 font-bold mr-1">상태:</div>
+
+        {moment(new Date()) >= moment(giftcard?.expirationTime) ? (
+          <div className="w-full text-right text-red-500">만료됨</div>
+        ) : (
+          <div className="w-full text-right text-green-500">사용 가능</div>
+        )}
+      </div>
+      <div className="flex flex-row w-full items-center mb-1">
         <div className="w-2/3 font-bold mr-1">만료일:</div>
         <div className="w-full text-right truncate">
           {moment(giftcard?.expirationTime).format("YYYY/MM/DD, HH:mm:ss")}
