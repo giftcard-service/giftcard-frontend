@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import QrReader from "react-qr-reader";
+import * as crypto from "crypto-js";
+
+import { CRYPTO_SECRET_KEY } from "../../utils/constants";
 
 function QrScan() {
   const history = useHistory();
@@ -11,10 +14,14 @@ function QrScan() {
 
   const handleScan = (data: any) => {
     if (data) {
-      const readResult = { ...JSON.parse(data), amount };
+      /* Decrypt QR code data */
+      const bytes = crypto.AES.decrypt(data, CRYPTO_SECRET_KEY);
+      const decryptedData = JSON.parse(bytes.toString(crypto.enc.Utf8));
+
+      const result = { ...decryptedData, amount };
       history.push({
         pathname: "/qr-read",
-        state: { data: readResult },
+        state: { data: result },
       });
     }
   };

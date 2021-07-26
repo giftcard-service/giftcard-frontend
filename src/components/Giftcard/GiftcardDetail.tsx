@@ -1,12 +1,14 @@
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
+import * as crypto from "crypto-js";
 
 import { getGiftcard } from "../../services/GiftcardService";
 import { createAndGetQrCode } from "../../services/QrCodeService";
 import { getUser } from "../../services/UserService";
 import { gcs } from "../../utils/types";
 import useTokens from "../../utils/useTokens";
+import { CRYPTO_SECRET_KEY } from "../../utils/constants";
 import QrCode from "../QrScan/QrCode";
 
 interface ParamTypes {
@@ -66,6 +68,15 @@ function GiftcardDetail() {
           </div>
           <div className="w-full h-px bg-gray-500 mb-2" />
           <div className="flex flex-row w-full items-center mb-2">
+            <div className="w-full font-bold mr-1">상태:</div>
+
+            {moment(new Date()) >= moment(giftcard?.expirationTime) ? (
+              <div className="w-full text-right text-red-500">만료됨</div>
+            ) : (
+              <div className="w-full text-right text-green-500">사용 가능</div>
+            )}
+          </div>
+          <div className="flex flex-row w-full items-center mb-2">
             <div className="w-full font-bold mr-1">만료일:</div>
             <div className="w-full text-right truncate">
               {moment(giftcard?.expirationTime).format("YYYY/MM/DD, HH:mm:ss")}
@@ -98,12 +109,16 @@ function GiftcardDetail() {
             <div className="w-full text-center mb-4 font-bold text-2xl">QR 코드</div>
             <div className="w-2/3 md:w-1/2 border-4 border-gray-500">
               <QrCode
-                value={`${JSON.stringify({
-                  qrCodeId: qrCode?.id,
-                  user: { id: user.id, username: user.username },
-                  storeId: giftcard.store.id,
-                  giftcardId: giftcard.id,
-                })}`}
+                /* Encrypt QR code data */
+                value={`${crypto.AES.encrypt(
+                  JSON.stringify({
+                    qrCodeId: qrCode?.id,
+                    user: { id: user.id, username: user.username },
+                    storeId: giftcard.store.id,
+                    giftcardId: giftcard.id,
+                  }),
+                  CRYPTO_SECRET_KEY
+                ).toString()}`}
               />
             </div>
           </div>
