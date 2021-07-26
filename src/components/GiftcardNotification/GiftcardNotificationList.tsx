@@ -38,15 +38,28 @@ function GiftcardNotificationList({ location }: { location: { search: string } }
           return res;
         });
 
-        await findGiftcardList({
-          tokens,
-          query: {
-            userId: tempUser.id,
-            expirationEnd: moment(Date.now() + expStartDays * 24 * 3600 * 1000).toISOString(),
-          },
-        }).then((res) => {
-          setGiftcardList(res);
-        });
+        if (expStartDays < 0) {
+          await findGiftcardList({
+            tokens,
+            query: {
+              userId: tempUser.id,
+              expirationEnd: moment(Date.now()).toISOString(),
+            },
+          }).then((res) => {
+            setGiftcardList(res);
+          });
+        } else {
+          await findGiftcardList({
+            tokens,
+            query: {
+              userId: tempUser.id,
+              expirationStart: moment(Date.now()).toISOString(),
+              expirationEnd: moment(Date.now() + expStartDays * 24 * 3600 * 1000).toISOString(),
+            },
+          }).then((res) => {
+            setGiftcardList(res);
+          });
+        }
       })();
     })();
   }, [tokens, expStartDays]);
@@ -62,6 +75,7 @@ function GiftcardNotificationList({ location }: { location: { search: string } }
           onChange={onChangeDropdown}
           value={expStartDays}
         >
+          <option value={-1}>만료</option>
           <option value={1}>1일 전</option>
           <option value={3}>3일 전</option>
           <option value={7}>7일 전</option>
