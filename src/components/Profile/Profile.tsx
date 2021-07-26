@@ -99,52 +99,55 @@ function Profile({ history }: { history: any }) {
         <div>로그인 되어있지 않습니다.</div>
       )}
 
-      <div className="flex flex-row m-2">
-        {user.isManager && (
+      <div className="flex flex-col m-2 items-center justify-center space-y-2">
+        <div className="flex flex-row space-x-2">
+          {user.isManager && (
+            <button
+              className="rounded-md bg-gray-600 text-white font-bold p-2"
+              onClick={() => {
+                history.push("/admin");
+              }}
+            >
+              관리자 페이지
+            </button>
+          )}
+
+          {user.store && (
+            <button
+              className="rounded-md bg-gray-600 text-white font-bold p-2"
+              onClick={() => {
+                history.push({
+                  pathname: "/giftcards",
+                  search: "?" + new URLSearchParams({ "store-id": user.store.id }).toString(),
+                });
+              }}
+            >
+              매장 상품권 관리
+            </button>
+          )}
+        </div>
+        <div className="flex flex-row space-x-2">
           <button
-            className="rounded-md bg-gray-600 text-white font-bold p-2 mr-2"
+            className="rounded-md bg-gray-600 text-white font-bold p-2"
             onClick={() => {
-              history.push("/admin");
+              history.push("/giftcard-purchases");
             }}
           >
-            관리자 페이지
+            상품권 이용 내역
           </button>
-        )}
 
-        {user.store && (
           <button
-            className="rounded-md bg-gray-600 text-white font-bold p-2 mr-2"
+            className="rounded-md bg-gray-600 text-white font-bold p-2"
             onClick={() => {
-              history.push({
-                pathname: "/giftcards",
-                search: "?" + new URLSearchParams({ "store-id": user.store.id }).toString(),
-              });
+              localStorage.clear();
+              alert("로그아웃 되었습니다.");
+              history.push("/");
+              window.location.reload();
             }}
           >
-            매장 상품권 관리
+            로그아웃
           </button>
-        )}
-
-        <button
-          className="rounded-md bg-gray-600 text-white font-bold p-2 mr-2"
-          onClick={() => {
-            history.push("/giftcard-purchases");
-          }}
-        >
-          상품권 이용 내역
-        </button>
-
-        <button
-          className="rounded-md bg-gray-600 text-white font-bold p-2"
-          onClick={() => {
-            localStorage.clear();
-            alert("로그아웃 되었습니다.");
-            history.push("/");
-            window.location.reload();
-          }}
-        >
-          로그아웃
-        </button>
+        </div>
       </div>
     </div>
   );
