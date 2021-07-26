@@ -48,7 +48,7 @@ function GiftcardPurchaseList({ location }: { location: { search: string } }) {
   return (
     <div className="flex flex-col w-full items-center mx-auto p-4">
       <h1 className="pb-1 text-xl font-bold mb-2">{`내 상품권 이용 내역: 총 ${giftcardPurchaseList.meta.totalItems}개`}</h1>
-      {giftcardId && <h1 className="pb-1 text-lg font-bold mb-2 text-gray-500">{`(상품권 ID 조회: ${giftcardId})`}</h1>}
+      {giftcardId && <h1 className="pb-1 text-lg font-bold mb-2 text-gray-500 text-center">{`(상품권 ID 조회: ${giftcardId})`}</h1>}
       <div className="flex flex-col w-full md:w-1/3">
         {giftcardPurchaseList.items.map((giftcardPurchase) => (
           <GiftcardPurchaseItem key={giftcardPurchase.id} giftcardPurchase={giftcardPurchase} />
