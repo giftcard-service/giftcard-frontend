@@ -13,11 +13,7 @@ const makeGiftcardPurchase = async ({
 }) =>
   await axios
     .post(API_V1_URL + `/giftcard-purchases`, data, { headers: jsonAuthHeaders(tokens.access_token) })
-    .then((res) => res.data)
-    .catch((err) => {
-      console.error(err.response.data);
-      return null;
-    });
+    .then((res) => res.data);
 
 const getGiftcard = async ({
   tokens,

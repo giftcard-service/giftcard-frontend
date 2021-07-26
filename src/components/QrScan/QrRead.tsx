@@ -66,8 +66,13 @@ function QrRead({
           .then(() => {
             setPurchaseState(PurchaseStateEnum.SUCCESS);
           })
-          .catch(() => {
-            alert("QR 정보가 올바르지 않거나 만료되었습니다.");
+          .catch((err) => {
+            console.error(err.response.data);
+            if (err.response.data.message.includes("Giftcard given has been expired")) {
+              alert("상품권이 만료되었습니다.");
+            } else {
+              alert("QR 정보가 올바르지 않거나 만료되었습니다.");
+            }
             history.push("/qr");
             return;
           });
